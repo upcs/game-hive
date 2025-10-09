@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Gamehive">
         <activity
-            android:name=".MainActivity"
+            android:name=".HMainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
