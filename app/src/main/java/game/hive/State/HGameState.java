@@ -25,30 +25,30 @@ public class HGameState implements View.OnClickListener {
     }
     private void initializeHands() {
         // Add white pieces to WhitesHand
-        WhitesHand.add(new QueenBee(Hex.Color.WHITE));
-        WhitesHand.add(new Beetle(Hex.Color.WHITE));
-        WhitesHand.add(new Beetle(Hex.Color.WHITE));
-        WhitesHand.add(new Spider(Hex.Color.WHITE));
-        WhitesHand.add(new Spider(Hex.Color.WHITE));
-        WhitesHand.add(new Ant(Hex.Color.WHITE));
-        WhitesHand.add(new Ant(Hex.Color.WHITE));
-        WhitesHand.add(new Ant(Hex.Color.WHITE));
-        WhitesHand.add(new Grasshopper(Hex.Color.WHITE));
-        WhitesHand.add(new Grasshopper(Hex.Color.WHITE));
-        WhitesHand.add(new Grasshopper(Hex.Color.WHITE));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"QueenBee"));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"Beetle"));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"Beetle"));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"Spider"));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"Spider"));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"Ant"));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"Ant"));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"Ant"));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"Grasshopper"));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"Grasshopper"));
+        WhitesHand.add(new Hex(Hex.Color.WHITE,"Grasshopper"));
 
         // Add black pieces to BlacksHand
-        BlacksHand.add(new QueenBee(Hex.Color.BLACK));
-        BlacksHand.add(new Beetle(Hex.Color.BLACK));
-        BlacksHand.add(new Beetle(Hex.Color.BLACK));
-        BlacksHand.add(new Spider(Hex.Color.BLACK));
-        BlacksHand.add(new Spider(Hex.Color.BLACK));
-        BlacksHand.add(new Ant(Hex.Color.BLACK));
-        BlacksHand.add(new Ant(Hex.Color.BLACK));
-        BlacksHand.add(new Ant(Hex.Color.BLACK));
-        BlacksHand.add(new Grasshopper(Hex.Color.BLACK));
-        BlacksHand.add(new Grasshopper(Hex.Color.BLACK));
-        BlacksHand.add(new Grasshopper(Hex.Color.BLACK));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"QueenBee"));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"Beetle"));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"Beetle"));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"Spider"));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"Spider"));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"Ant"));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"Ant"));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"Ant"));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"Grasshopper"));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"Grasshopper"));
+        BlacksHand.add(new Hex(Hex.Color.BLACK,"Grasshopper"));
     }
     @Override
     public void onClick(View v) {
