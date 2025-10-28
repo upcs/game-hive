@@ -2,14 +2,13 @@ package game.hive;
 
 import game.hive.GameFramework.infoMessage.GameInfo;
 import game.hive.GameFramework.players.GameComputerPlayer;
-import game.hive.GameFramework.utilities.Logger;
 
-public class HComputerPlayer extends GameComputerPlayer {
+public class HComputerPlayerDumb extends GameComputerPlayer {
 
     /*
      * Constructor for the TTTComputerPlayer1 class
      */
-    public HComputerPlayer(String name) {
+    public HComputerPlayerDumb(String name) {
         // invoke superclass constructor
         super(name); // invoke superclass constructor
     }

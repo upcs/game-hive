@@ -16,6 +16,7 @@ import game.hive.GameFramework.gameConfiguration.GameConfig;
 import game.hive.GameFramework.gameConfiguration.GamePlayerType;
 import game.hive.GameFramework.infoMessage.GameState;
 import game.hive.GameFramework.players.GamePlayer;
+import game.hive.State.HGameState;
 
 public class HMainActivity extends GameMainActivity {
     private static final String TAG = "TTTMainActivity";
@@ -67,7 +68,7 @@ public class HMainActivity extends GameMainActivity {
     public LocalGame createLocalGame(GameState gameState){
         if(gameState == null)
             return new HLocalGame();
-        return new HLocalGame((HState) gameState);
+        return new HLocalGame((HGameState) gameState);
     }
 
 }
