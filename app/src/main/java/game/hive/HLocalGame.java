@@ -6,9 +6,16 @@ import game.hive.GameFramework.players.GamePlayer;
 import game.hive.State.HGameState;
 
 public class HLocalGame extends LocalGame {
-    HGameState theGameState;
+
     public HLocalGame(){
-        theGameState = new HGameState();
+        super();
+        super.state = new HGameState();
+
+    }
+    public HLocalGame(HGameState hGameState){
+        super();
+        super.state = new HGameState(hGameState);
+
     }
 
     @Override

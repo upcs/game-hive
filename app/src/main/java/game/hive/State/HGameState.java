@@ -4,7 +4,9 @@ import android.view.View;
 
 import java.util.ArrayList;
 
-public class HGameState implements View.OnClickListener {
+import game.hive.GameFramework.infoMessage.GameState;
+
+public class HGameState extends GameState implements View.OnClickListener {
     int activePlayer; //1 for White player, 2 for Black Player
     boolean[] isBeePlaced = new boolean[2];//move new to constructor
     int turnNumber;

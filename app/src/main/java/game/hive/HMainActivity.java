@@ -38,7 +38,7 @@ public class HMainActivity extends GameMainActivity {
         // dumb computer player
         playerTypes.add(new GamePlayerType("Computer Player (dumb)") {
             public GamePlayer createPlayer(String name) {
-                return new HComputerPLayerDumb(name);
+                return new HComputerPlayerDumb(name);
             }
         });
         // Create a game configuration class for Tic-tac-toe
