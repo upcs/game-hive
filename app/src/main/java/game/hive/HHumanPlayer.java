@@ -7,6 +7,13 @@ import game.hive.GameFramework.infoMessage.GameInfo;
 import game.hive.GameFramework.players.GameHumanPlayer;
 
 public class HHumanPlayer extends GameHumanPlayer {
+
+    
+    private int layoutId;
+    public HHumanPlayer(String name, int layoutId) {
+        super(name);
+        this.layoutId = layoutId;
+    }
     @Override
     public View getTopView() {
         return null;
@@ -19,6 +26,8 @@ public class HHumanPlayer extends GameHumanPlayer {
 
     @Override
     public void setAsGui(GameMainActivity activity) {
-
+        //This is basically the onCreate method
+        //Set contentView here
+        activity.setContentView(layoutId);
     }
 }
