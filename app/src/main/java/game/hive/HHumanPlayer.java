@@ -11,7 +11,7 @@ import game.hive.GameFramework.infoMessage.GameInfo;
 import game.hive.GameFramework.players.GameHumanPlayer;
 import game.hive.GameFramework.utilities.Logger;
 
-public class HHumanPlayer extends GameHumanPlayer {
+public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
 
     
     private int layoutId;
@@ -48,19 +48,19 @@ public class HHumanPlayer extends GameHumanPlayer {
         // values are in the range 0..2)
         int x = (int) event.getX();
         int y = (int) event.getY();
-        Point p = surfaceView.mapPixelToSquare(x, y);
+        //Point p = surfaceView.mapPixelToSquare(x, y);
 
         // if the location did not map to a legal square, flash
         // the screen; otherwise, create and send an action to
         // the game
-        if (p == null) {
-            surfaceView.flash(Color.RED, 50);
-        } else {
-            HMoveAction action = new HMoveAction(this, p.y, p.x);
+        //if (p == null) {
+        //    surfaceView.flash(Color.RED, 50);
+        //} else {
+            HMoveAction action = new HMoveAction(this, x, y); //replaced p.x and p.y with x and y
             Logger.log("onTouch", "Human player sending HMA ...");
             game.sendAction(action);
             surfaceView.invalidate();
-        }
+        //}
 
         // register that we have handled the event
         return true;
