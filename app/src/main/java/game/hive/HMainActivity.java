@@ -19,7 +19,7 @@ import game.hive.GameFramework.players.GamePlayer;
 import game.hive.State.HGameState;
 
 public class HMainActivity extends GameMainActivity {
-    private static final String TAG = "TTTMainActivity";
+    private static final String TAG = "HMainActivity";
     public static final int PORT_NUMBER = 5213;
 
     /**
@@ -41,8 +41,8 @@ public class HMainActivity extends GameMainActivity {
                 return new HComputerPlayerDumb(name);
             }
         });
-        // Create a game configuration class for Tic-tac-toe
-        GameConfig defaultConfig = new GameConfig(playerTypes, 2,2, "Tic-Tac-Toe", PORT_NUMBER);
+        // Create a game configuration class for Hive
+        GameConfig defaultConfig = new GameConfig(playerTypes, 2,2, "Hive", PORT_NUMBER);
 
         // Add the default players
         defaultConfig.addPlayer("Human", 0); // local human

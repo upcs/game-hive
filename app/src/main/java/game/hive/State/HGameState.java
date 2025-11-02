@@ -71,6 +71,17 @@ public class HGameState extends GameState implements View.OnClickListener {
         this.Board = orig.Board;
     }
 
+    public void setPiece(int X, int Y, char piece) {
+        // if we're out of bounds or anything, return;
+        if (Board == null || X < 0 || Y < 0) return;
+        //if (X >= Board.length || Y >= Board[X].length) return;
+
+        // return the character that is in the proper position
+        //Board[X][Y] = piece;
+        HexSpace SelectedHex = Board.get(X).get(Y);
+
+    }
+
     @Override
     public String toString() {
         return "HiveState{"
