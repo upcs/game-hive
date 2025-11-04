@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import game.hive.GameFramework.infoMessage.GameState;
 
 public class HGameState extends GameState implements View.OnClickListener {
-    int activePlayer; //1 for White player, 2 for Black Player
+    int activePlayer; //0 for White player, 1 for Black Player
     boolean[] isBeePlaced = new boolean[2];//move new to constructor
     int turnNumber;
     ArrayList<Hex> WhitesHand;
@@ -79,11 +79,91 @@ public class HGameState extends GameState implements View.OnClickListener {
         // return the character that is in the proper position
         //Board[X][Y] = piece;
 
-        //check location is empty
-        //check valid move
-        //place piece if valid and return true
+        if(playerId!=activePlayer){
+            return false;
+        }
+
 
         HexSpace SelectedHex = Board.get(X).get(Y);
+        HexSpace Side1 = Board.get(X).get(Y-1);
+        HexSpace Side2 = Board.get(X+1).get(Y-1);
+        HexSpace Side3 = Board.get(X-1).get(Y);
+        HexSpace Side4 = Board.get(X+1).get(Y);
+        HexSpace Side5 = Board.get(X).get(Y+1);
+        HexSpace Side6 = Board.get(X+1).get(Y+1);
+        boolean valid = false;
+        //check location is empty
+        if(SelectedHex.getHex()!=null){
+            return false;
+        }
+        if(turnNumber == 1){
+            valid = true;
+        } else if (turnNumber == 2) {
+            if((Side1.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side1.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+                valid = true;
+            }
+            else if((Side2.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side2.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+                valid = true;
+            }
+            else if((Side3.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side3.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+                valid = true;
+            }
+            else if((Side4.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side4.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+                valid = true;
+            }
+            else if((Side5.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side5.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+                valid = true;
+            }
+            else if((Side6.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side6.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+                valid = true;
+            }
+
+        } else if((Side1.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side1.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+            valid = true;
+        }
+        else if((Side2.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side2.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+            valid = true;
+        }
+        else if((Side3.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side3.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+            valid = true;
+        }
+        else if((Side4.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side4.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+            valid = true;
+        }
+        else if((Side5.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side5.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+            valid = true;
+        }
+        else if((Side6.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side6.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+            valid = true;
+        }
+
+        //check valid move
+
+        if(valid){
+            if(activePlayer==1) {
+                SelectedHex.setHex(new Hex(Hex.Color.WHITE, name));
+            }
+            else{
+                SelectedHex.setHex(new Hex(Hex.Color.BLACK, name));
+            }
+            activePlayer=1-activePlayer;
+            return true;
+        }
+        //place piece if valid and return true
+
+
         return false; //did not make a move
     }
 
