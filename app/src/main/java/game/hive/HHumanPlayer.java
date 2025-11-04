@@ -11,12 +11,13 @@ import game.hive.GameFramework.GameMainActivity;
 import game.hive.GameFramework.infoMessage.GameInfo;
 import game.hive.GameFramework.players.GameHumanPlayer;
 import game.hive.GameFramework.utilities.Logger;
+import game.hive.State.HSurfaceView;
 
 public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
 
     
     private int layoutId;
-    private SurfaceView surfaceView;
+    private HSurfaceView surfaceView;
     private boolean IsWhiteBeetleSelected = false;
     public HHumanPlayer(String name, int layoutId) {
         super(name);
@@ -60,10 +61,10 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             // values are in the range 0..2)
             int x = (int) event.getX();
             int y = (int) event.getY();
-            Point p = surfaceView.mapPixelToSquare(x, y);
+            Point p = surfaceView.mapPixelToHex(x, y);
 
             if(IsWhiteBeetleSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"WhiteBeetle");
+                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Beetle");
                 //Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
@@ -71,7 +72,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
 
-            HMoveAction action = new HMoveAction(this, x, y); //replaced p.x and p.y with x and y
+            HMoveAction action = new HMoveAction(this, p.x, p.y);
             Logger.log("onTouch", "Human player sending HMA ...");
             game.sendAction(action);
             surfaceView.invalidate();
