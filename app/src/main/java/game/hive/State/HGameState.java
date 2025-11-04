@@ -71,15 +71,20 @@ public class HGameState extends GameState implements View.OnClickListener {
         this.Board = orig.Board;
     }
 
-    public void setPiece(int X, int Y, char piece) {
+    public boolean placePiece(int X, int Y, String name, int playerId) {
         // if we're out of bounds or anything, return;
-        if (Board == null || X < 0 || Y < 0) return;
+        if (Board == null || X < 0 || Y < 0) return false;
         //if (X >= Board.length || Y >= Board[X].length) return;
 
         // return the character that is in the proper position
         //Board[X][Y] = piece;
-        HexSpace SelectedHex = Board.get(X).get(Y);
 
+        //check location is empty
+        //check valid move
+        //place piece if valid and return true
+
+        HexSpace SelectedHex = Board.get(X).get(Y);
+        return false; //did not make a move
     }
 
     @Override
