@@ -23,6 +23,13 @@ public class HGameState extends GameState implements View.OnClickListener {
         BlacksHand = new ArrayList<>();
         initializeHands();
         Board = new ArrayList<>();
+        for(int i=0;i<30;i++)
+        {
+            Board.add(new ArrayList<HexSpace>());
+            for(int j=0;j<30;j++){
+                Board.get(i).add( new HexSpace() );
+            }
+        }
 
     }
     private void initializeHands() {
@@ -82,6 +89,12 @@ public class HGameState extends GameState implements View.OnClickListener {
         if(playerId!=activePlayer){
             return false;
         }
+        boolean valid = false;
+        if(turnNumber == 1){
+            valid = true;
+            X = 15;
+            Y = 15;
+        }
 
 
         HexSpace SelectedHex = Board.get(X).get(Y);
@@ -91,14 +104,12 @@ public class HGameState extends GameState implements View.OnClickListener {
         HexSpace Side4 = Board.get(X+1).get(Y);
         HexSpace Side5 = Board.get(X).get(Y+1);
         HexSpace Side6 = Board.get(X+1).get(Y+1);
-        boolean valid = false;
+
         //check location is empty
         if(SelectedHex.getHex()!=null){
             return false;
         }
-        if(turnNumber == 1){
-            valid = true;
-        } else if (turnNumber == 2) {
+         else if (turnNumber == 2) {
             if((Side1.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
                     (Side1.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
                 valid = true;
