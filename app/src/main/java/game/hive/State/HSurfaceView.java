@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 import android.graphics.Bitmap;
@@ -17,10 +18,10 @@ import game.hive.R;
 
 public class HSurfaceView extends SurfaceView {
     //private Bitmap myImageBitmap;
-    private HashMap<String, Bitmap> pieces;
-    private final int LENGTH = 40;
-    final int a = (int) (LENGTH * Math.cos(0.523599));
-    int b = 2*((int) ((LENGTH) * Math.sin(0.523599)));
+    private HashMap<String, Bitmap> pieces; // creates hashmap for all the insect pieces
+    private final int LENGTH = 40; // hypotenuse of right triangle
+    final int a = (int) (LENGTH * Math.cos(0.523599)); // 30 degrees in radians
+    final int b = 2* (int) (LENGTH * Math.sin(0.523599)); // 30 degrees in radians
     
 
     public HSurfaceView(Context context, AttributeSet attrs) {
@@ -45,9 +46,23 @@ public class HSurfaceView extends SurfaceView {
             drawHex(50 + ((2*a + LENGTH)*i) + LENGTH + a, 50 + b, 10, 10, hexColor, canvas);
         }
         super.onDraw(canvas);
+        if(pieces != null){
+            Rect srcRect = null;//new Rect(0,0, pieces.getWith(), pieces.getHeight());
+            Rect dstRect = new Rect(0,0,LENGTH,2*b);
+            //Paint paint = new Paint();
+            canvas.drawBitmap(pieces.get("Beetle"),srcRect,dstRect,null);
+
+
+        }
         /*if(pieces != null){
             canvas.drawBitmap(pieces.get("Beetle"),0,0,null);
         }*/
+    }
+    public void drawPiece(Canvas canvas, String namePiece){
+        Rect srcRect = null;//new Rect(0,0, pieces.getWith(), pieces.getHeight());
+        Rect dstRect = new Rect(0,0,LENGTH,2*b);
+        //Paint paint = new Paint();
+        canvas.drawBitmap(pieces.get(namePiece),srcRect,dstRect,null);
     }
 
     public void drawHex(float x, float y, float x2, float y2, Paint color, Canvas canvas){
