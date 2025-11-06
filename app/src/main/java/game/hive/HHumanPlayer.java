@@ -28,6 +28,9 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
     private boolean IsBlackAntSelected = false;
     private boolean IsWhiteSpiderSelected = false;
     private boolean IsBlackSpiderSelected = false;
+    private int LastX;
+    private int LastY;
+    private boolean IsHexSelected = false;
 
     public HHumanPlayer(String name, int layoutId) {
         super(name);
@@ -202,21 +205,31 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 IsBlackSpiderSelected = false;
                 return true;
             }
+            else if(IsHexSelected) {
 
-            HMoveAction action = new HMoveAction(this, p.x, p.y);
-            Logger.log("onTouch", "Human player sending HMA ...");
-            game.sendAction(action);
-            surfaceView.invalidate();
-            IsWhiteBeetleSelected = false;
-            IsBlackBeetleSelected = false;
-            IsWhiteGrasshopperSelected = false;
-            IsBlackGrasshopperSelected = false;
-            IsWhiteBeeSelected = false;
-            IsBlackBeeSelected = false;
-            IsWhiteAntSelected = false;
-            IsBlackAntSelected = false;
-            IsWhiteSpiderSelected = false;
-            IsBlackSpiderSelected = false;
+                HMoveAction action = new HMoveAction(this, LastX, LastY, p.x, p.y);
+                Logger.log("onTouch", "Human player sending HMA ...");
+                game.sendAction(action);
+                surfaceView.invalidate();
+                IsWhiteBeetleSelected = false;
+                IsBlackBeetleSelected = false;
+                IsWhiteGrasshopperSelected = false;
+                IsBlackGrasshopperSelected = false;
+                IsWhiteBeeSelected = false;
+                IsBlackBeeSelected = false;
+                IsWhiteAntSelected = false;
+                IsBlackAntSelected = false;
+                IsWhiteSpiderSelected = false;
+                IsBlackSpiderSelected = false;
+                IsHexSelected = false;
+            }
+            else{
+                LastX = p.x;
+                LastY = p.y;
+
+                IsHexSelected = true;
+            }
+
         }
         // register that we have handled the event
         return true;
