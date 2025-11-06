@@ -19,6 +19,8 @@ public class HSurfaceView extends SurfaceView {
     //private Bitmap myImageBitmap;
     private HashMap<String, Bitmap> pieces;
     private final int LENGTH = 40;
+    final int a = (int) (LENGTH * Math.cos(0.523599));
+    int b = 2*((int) ((LENGTH) * Math.sin(0.523599)));
     
 
     public HSurfaceView(Context context, AttributeSet attrs) {
@@ -37,7 +39,11 @@ public class HSurfaceView extends SurfaceView {
     public void onDraw(Canvas canvas) {
         Paint hexColor = new Paint();
         hexColor.setColor(Color.RED);
-        drawHex(1,2,10,10,hexColor, canvas);
+
+        for(int i = 0; i <= 10; i++) {
+            drawHex(50+((2*a + LENGTH)*i), 50, 10, 10, hexColor, canvas);
+            drawHex(50 + ((2*a + LENGTH)*i) + LENGTH + a, 50 + b, 10, 10, hexColor, canvas);
+        }
         super.onDraw(canvas);
         /*if(pieces != null){
             canvas.drawBitmap(pieces.get("Beetle"),0,0,null);
@@ -45,16 +51,17 @@ public class HSurfaceView extends SurfaceView {
     }
 
     public void drawHex(float x, float y, float x2, float y2, Paint color, Canvas canvas){
-        final int a = (int) (LENGTH * Math.cos(0.523599));
-        final int b = (int) (LENGTH * Math.sin(0.523599));
+
 
         color.setStyle(Paint.Style.STROKE);
         color.setStrokeWidth(5);
-        canvas.drawLine(0, 0, LENGTH, 0, color);
-        canvas.drawLine(LENGTH, 0, (LENGTH + a), b, color);
-        canvas.drawLine( (int) (LENGTH + a),(int) b, LENGTH , 2*b ,color);
-        canvas.drawLine(0, 0, -(LENGTH + a), b, color);
-        canvas.drawLine(0, 2*b, -(LENGTH + a), b, color);
+        canvas.drawLine(x, y, x + LENGTH, y, color);// top
+        canvas.drawLine(x + LENGTH, y, x + (LENGTH + a), b + y, color);//top right
+        canvas.drawLine( x + (LENGTH + a), b + y, b + x , (2*b) + y ,color); // bottom right
+        canvas.drawLine(x, y, x - a  , b + y, color); // top left
+        canvas.drawLine(x, (2*b) + y, x - a, b + y, color); //bottom left
+        canvas.drawLine(x + LENGTH,(2*b) + y, x, (2*b) + y, color); // bottom line
+
 
 
 
