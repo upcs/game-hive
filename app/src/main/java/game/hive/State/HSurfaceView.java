@@ -19,6 +19,7 @@ import game.hive.R;
 public class HSurfaceView extends SurfaceView {
     //private Bitmap myImageBitmap;
     private HashMap<String, Bitmap> pieces;
+    private final int LENGTH = 40;
     
 
     public HSurfaceView(Context context, AttributeSet attrs) {
@@ -47,11 +48,27 @@ public class HSurfaceView extends SurfaceView {
 
 
         }
+        /*if(pieces != null){
+            canvas.drawBitmap(pieces.get("Beetle"),0,0,null);
+        }*/
     }
 
     public void drawHex(float x, float y, float x2, float y2, Paint color, Canvas canvas){
+        final int a = (int) (LENGTH * Math.cos(0.523599));
+        final int b = (int) (LENGTH * Math.sin(0.523599));
 
-        canvas.drawLine(x, y, x2, y2, color);
+        color.setStyle(Paint.Style.STROKE);
+        color.setStrokeWidth(5);
+        canvas.drawLine(0, 0, LENGTH, 0, color);
+        canvas.drawLine(LENGTH, 0, (LENGTH + a), b, color);
+        canvas.drawLine( (int) (LENGTH + a),(int) b, LENGTH , 2*b ,color);
+        canvas.drawLine(0, 0, -(LENGTH + a), b, color);
+        canvas.drawLine(0, 2*b, -(LENGTH + a), b, color);
+
+
+
+
+
     }
     public Point mapPixelToHex(int x, int y){
 
