@@ -177,6 +177,40 @@ public class HGameState extends GameState implements View.OnClickListener {
 
         return false; //did not make a move
     }
+    public boolean movePiece(int Xloc, int Yloc, int Xdest, int Ydest, int playerId){
+        // if we're out of bounds or anything, return;
+        if (Board == null || Xloc < 0 || Yloc < 0 || Xdest < 0 || Ydest < 0) return false;
+        //if (X >= Board.length || Y >= Board[X].length) return;
+
+        // return the character that is in the proper position
+        //Board[X][Y] = piece;
+
+        if(playerId!=activePlayer){
+            return false;
+        }
+        boolean valid = false;
+        HexSpace SelectedHex = Board.get(Xloc).get(Yloc);
+        HexSpace DestinationHex = Board.get(Xdest).get(Ydest);
+        HexSpace Side1 = Board.get(Xdest).get(Ydest-1);
+        HexSpace Side2 = Board.get(Xdest+1).get(Ydest-1);
+        HexSpace Side3 = Board.get(Xdest-1).get(Ydest);
+        HexSpace Side4 = Board.get(Xdest+1).get(Ydest);
+        HexSpace Side5 = Board.get(Xdest).get(Ydest+1);
+        HexSpace Side6 = Board.get(Xdest+1).get(Ydest+1);
+        if(DestinationHex.getHex()==null &&
+                ((SelectedHex.getHex().getColor()== Hex.Color.WHITE && playerId==0)||
+                (SelectedHex.getHex().getColor()== Hex.Color.BLACK && playerId==1))&&
+                (Side1!=null||Side2!=null||Side3!=null||Side4!=null||Side5!=null||Side6!=null)){
+            valid=true;
+        }
+        if(valid){
+            DestinationHex.setHex(SelectedHex.getHex());
+            SelectedHex.setHex(null);
+            activePlayer=1-activePlayer;
+            return true;
+        }
+        return false;
+    }
 
     @Override
     public String toString() {

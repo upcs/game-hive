@@ -60,6 +60,14 @@ public class HLocalGame extends LocalGame {
         }
         else if(action instanceof HMoveAction)
         {
+            HMoveAction tm = (HMoveAction) action;
+            int Xloc = tm.getXloc();
+            int Yloc = tm.getYloc();
+            int Xdest = tm.getXdest();
+            int Ydest = tm.getYdest();
+            int playerId = getPlayerIdx(tm.getPlayer());
+            if(!canMove(playerId)) return false;
+            return state.movePiece(Xloc,Yloc,Xdest,Ydest,playerId);
          /*   HMoveAction tm = (HMoveAction) action;
             int X = tm.getX();
             int Y = tm.getY();

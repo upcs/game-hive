@@ -29,4 +29,9 @@ public class HMoveAction extends GameAction {
     public int getYdest() {
         return Ydest;
     }
+
+    @Override
+    public GamePlayer getPlayer() {
+        return super.getPlayer();
+    }
 }
