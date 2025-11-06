@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".HMainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
 
             <TextView
                 android:id="@+id/textView11"
-                android:layout_width="210dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Whites Hand"
@@ -57,28 +57,28 @@
                     app:srcCompat="@drawable/beetle" />
 
                 <ImageView
-                    android:id="@+id/imageView6"
+                    android:id="@+id/WhiteGrasshopper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/grasshopper" />
 
                 <ImageView
-                    android:id="@+id/imageView7"
+                    android:id="@+id/WhiteBee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/queenbee" />
 
                 <ImageView
-                    android:id="@+id/imageView8"
+                    android:id="@+id/WhiteAnt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/soldierant" />
 
                 <ImageView
-                    android:id="@+id/imageView9"
+                    android:id="@+id/WhiteSpider"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -97,35 +97,35 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imageView10"
+                    android:id="@+id/BlackBeetle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/beetle" />
 
                 <ImageView
-                    android:id="@+id/imageView11"
+                    android:id="@+id/BlackGrasshopper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/grasshopper" />
 
                 <ImageView
-                    android:id="@+id/imageView12"
+                    android:id="@+id/BlackBee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/queenbee" />
 
                 <ImageView
-                    android:id="@+id/imageView13"
+                    android:id="@+id/BlackAnt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/soldierant" />
 
                 <ImageView
-                    android:id="@+id/imageView14"
+                    android:id="@+id/BlackSpider"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

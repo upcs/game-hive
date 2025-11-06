@@ -14,5 +14,9 @@ public class Hex {
     public Color getColor() {
         return color;
     }
+
+    public String getName() {
+        return name;
+    }
 }
 

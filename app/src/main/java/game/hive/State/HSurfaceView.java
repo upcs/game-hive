@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
+import android.util.AttributeSet;
 import android.view.SurfaceView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,8 +18,10 @@ import game.hive.R;
 public class HSurfaceView extends SurfaceView {
     //private Bitmap myImageBitmap;
     private HashMap<String, Bitmap> pieces;
-    public HSurfaceView(Context context) {
-        super(context);
+    
+
+    public HSurfaceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
         setWillNotDraw(false);
         pieces = new HashMap<>();
         pieces.put("Beetle", BitmapFactory.decodeResource(getResources(), R.drawable.beetle));
@@ -40,7 +44,12 @@ public class HSurfaceView extends SurfaceView {
     }
 
     public void drawHex(float x, float y, float x2, float y2, Paint color, Canvas canvas){
+
         canvas.drawLine(x, y, x2, y2, color);
+    }
+    public Point mapPixelToHex(int x, int y){
+
+        return new Point(0,0);
     }
 
 }
