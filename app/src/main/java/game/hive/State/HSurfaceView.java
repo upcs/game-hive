@@ -18,10 +18,10 @@ import game.hive.R;
 
 public class HSurfaceView extends SurfaceView {
     //private Bitmap myImageBitmap;
-    private HashMap<String, Bitmap> pieces;
-    private final int LENGTH = 40;
-    final int a = (int) (LENGTH * Math.cos(0.523599));
-    final int b = (int) (LENGTH * Math.sin(0.523599));
+    private HashMap<String, Bitmap> pieces; // creates hashmap for all the insect pieces
+    private final int LENGTH = 40; // hypotenuse of right triangle
+    final int a = (int) (LENGTH * Math.cos(0.523599)); // 30 degrees in radians
+    final int b = (int) (LENGTH * Math.sin(0.523599)); // 30 degrees in radians
     
 
     public HSurfaceView(Context context, AttributeSet attrs) {
