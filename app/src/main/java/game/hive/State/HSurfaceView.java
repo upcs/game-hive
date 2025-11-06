@@ -26,9 +26,9 @@ public class HSurfaceView extends SurfaceView {
         pieces = new HashMap<>();
         pieces.put("Beetle", BitmapFactory.decodeResource(getResources(), R.drawable.beetle));
         pieces.put("Grasshopper", BitmapFactory.decodeResource(getResources(), R.drawable.grasshopper));
-        pieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.hive_black_queen_logo_hd);
-        pieces.put("Delete", BitmapFactory.decodeResource(getResources(), R.drawable.purple_delete_button);
-        pieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.queenbee);
+        pieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.hive_black_queen_logo_hd));
+        pieces.put("Delete", BitmapFactory.decodeResource(getResources(), R.drawable.purple_delete_button));
+        pieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.queenbee));
         pieces.put("Ant", BitmapFactory.decodeResource(getResources(), R.drawable.soldierant));
         pieces.put("Spider", BitmapFactory.decodeResource(getResources(), R.drawable.spider));
     }
@@ -38,7 +38,7 @@ public class HSurfaceView extends SurfaceView {
         hexColor.setColor(Color.RED);
         drawHex(1,2,10,10,hexColor, canvas);
         super.onDraw(canvas);
-        if(myImageBitmap != null){
+        if(pieces != null){
             canvas.drawBitmap(pieces.get("Beetle"),0,0,null);
         }
     }
