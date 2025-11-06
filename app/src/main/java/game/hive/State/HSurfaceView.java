@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 import android.graphics.Bitmap;
@@ -39,7 +40,12 @@ public class HSurfaceView extends SurfaceView {
         drawHex(1,2,10,10,hexColor, canvas);
         super.onDraw(canvas);
         if(pieces != null){
-            canvas.drawBitmap(pieces.get("Beetle"),0,0,null);
+            Rect srcRect = null;//new Rect(0,0, pieces.getWith(), pieces.getHeight());
+            Rect dstRect = new Rect(50,50,250,250);
+            //Paint paint = new Paint();
+            canvas.drawBitmap(pieces.get("Beetle"),srcRect,dstRect,null);
+
+
         }
     }
 
