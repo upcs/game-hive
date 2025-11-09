@@ -11,6 +11,7 @@ import android.view.SurfaceView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import game.hive.R;
@@ -20,9 +21,16 @@ public class HSurfaceView extends SurfaceView {
     //private Bitmap myImageBitmap;
     private HashMap<String, Bitmap> pieces; // creates hashmap for all the insect pieces
     private final int LENGTH = 40; // hypotenuse of right triangle
+<<<<<<< Updated upstream
     private final float s = LENGTH; // side
     final int a = (int) (LENGTH * Math.cos(1.047198)); // 30 degrees in radians
     final int b = (int) (LENGTH * Math.sin(1.047198)); // 30 degrees in radians
+=======
+    final int a = (int) (LENGTH * Math.cos(0.523599)); // 30 degrees in radians
+    final int b = (int) (LENGTH * Math.sin(0.523599)); // 30 degrees in radians
+
+    private ArrayList<ArrayList<HexSpace>> board;
+>>>>>>> Stashed changes
     
 
     public HSurfaceView(Context context, AttributeSet attrs) {
@@ -108,4 +116,7 @@ public class HSurfaceView extends SurfaceView {
         return new Point(0,0);
     }
 
+    public void setBoard(ArrayList<ArrayList<HexSpace>> board) {
+        this.board = board;
+    }
 }
