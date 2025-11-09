@@ -212,6 +212,10 @@ public class HGameState extends GameState implements View.OnClickListener {
         return false;
     }
 
+    public ArrayList<ArrayList<HexSpace>> getBoard() {
+        return Board;
+    }
+
     @Override
     public String toString() {
         return "HiveState{"

@@ -11,6 +11,7 @@ import game.hive.GameFramework.GameMainActivity;
 import game.hive.GameFramework.infoMessage.GameInfo;
 import game.hive.GameFramework.players.GameHumanPlayer;
 import game.hive.GameFramework.utilities.Logger;
+import game.hive.State.HGameState;
 import game.hive.State.HSurfaceView;
 
 public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
@@ -43,7 +44,12 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
 
     @Override
     public void receiveInfo(GameInfo info) {
+        if(info instanceof HGameState){
+            HGameState state = (HGameState)info;
 
+            surfaceView.setBoard(state.getBoard());
+            surfaceView.invalidate();
+        }
     }
 
     @Override
@@ -210,7 +216,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 HMoveAction action = new HMoveAction(this, LastX, LastY, p.x, p.y);
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
-                surfaceView.invalidate();
+
                 IsWhiteBeetleSelected = false;
                 IsBlackBeetleSelected = false;
                 IsWhiteGrasshopperSelected = false;
