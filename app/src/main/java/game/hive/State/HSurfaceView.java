@@ -20,8 +20,9 @@ public class HSurfaceView extends SurfaceView {
     //private Bitmap myImageBitmap;
     private HashMap<String, Bitmap> pieces; // creates hashmap for all the insect pieces
     private final int LENGTH = 40; // hypotenuse of right triangle
-    final int a = (int) (LENGTH * Math.cos(0.523599)); // 30 degrees in radians
-    final int b = 2* (int) (LENGTH * Math.sin(0.523599)); // 30 degrees in radians
+    private final float s = LENGTH; // side
+    final int a = (int) (LENGTH * Math.cos(1.047198)); // 30 degrees in radians
+    final int b = (int) (LENGTH * Math.sin(1.047198)); // 30 degrees in radians
     
 
     public HSurfaceView(Context context, AttributeSet attrs) {
@@ -41,19 +42,35 @@ public class HSurfaceView extends SurfaceView {
         Paint hexColor = new Paint();
         hexColor.setColor(Color.RED);
 
-        for(int i = 0; i <= 10; i++) {
-            drawHex(50+((2*a + LENGTH)*i), 50, 10, 10, hexColor, canvas);
-            drawHex(50 + ((2*a + LENGTH)*i) + LENGTH + a, 50 + b, 10, 10, hexColor, canvas);
+        final float s = LENGTH;       //side length
+        final float a = 0.5f * s;
+        final float b = 0.8660254f * s;
+
+        final float colStep = s + a;  // 1.5 * s
+
+        float startX = 50f;
+        float startY = 50f;
+
+        // draw board
+        for (int i = 0; i <= 10; i++) {
+            float x0 = startX + i * (2*colStep); // skips a hexagon "space"
+            drawHex(x0, startY, 0, 0, hexColor, canvas); // row 0
+            drawHex(x0 + (s + a), startY + b, 0, 0, hexColor, canvas); //row offset
         }
+        //sample piece
+        if(pieces != null) {
+            Rect srcRect = null; //new Rect(0,0, pieces.getWith(), pieces.getHeight());
+            Rect dstRect = new Rect((int)(startX + s),
+                    (int)(startY + b),
+                    (int)(startX + s + LENGTH),
+                    (int)(startY + b + 2*b));
+
+            // Paint paint = new Paint();
+            canvas.drawBitmap(pieces.get("Beetle"), srcRect, dstRect, null);
+        }
+
+
         super.onDraw(canvas);
-        if(pieces != null){
-            Rect srcRect = null;//new Rect(0,0, pieces.getWith(), pieces.getHeight());
-            Rect dstRect = new Rect(0,0,LENGTH,2*b);
-            //Paint paint = new Paint();
-            canvas.drawBitmap(pieces.get("Beetle"),srcRect,dstRect,null);
-
-
-        }
         /*if(pieces != null){
             canvas.drawBitmap(pieces.get("Beetle"),0,0,null);
         }*/
@@ -70,16 +87,19 @@ public class HSurfaceView extends SurfaceView {
 
         color.setStyle(Paint.Style.STROKE);
         color.setStrokeWidth(5);
-        canvas.drawLine(x, y, x + LENGTH, y, color);// top
-        canvas.drawLine(x + LENGTH, y, x + (LENGTH + a), b + y, color);//top right
-        canvas.drawLine( x + (LENGTH + a), b + y, b + x , (2*b) + y ,color); // bottom right
-        canvas.drawLine(x, y, x - a  , b + y, color); // top left
-        canvas.drawLine(x, (2*b) + y, x - a, b + y, color); //bottom left
-        canvas.drawLine(x + LENGTH,(2*b) + y, x, (2*b) + y, color); // bottom line
 
-
-
-
+        // top
+        canvas.drawLine(x, y, x + s, y, color);
+        // top right
+        canvas.drawLine(x + s, y, x + s + a, y + b, color);
+        // bottom right
+        canvas.drawLine(x + s + a, y + b, x + s, y + 2*b, color);
+        // bottom
+        canvas.drawLine(x + s, y + 2*b, x, y + 2*b, color);
+        // bottom left
+        canvas.drawLine(x, y + 2*b, x - a, y + b, color);
+        // top left
+        canvas.drawLine(x - a, y + b, x, y, color);
 
 
     }
