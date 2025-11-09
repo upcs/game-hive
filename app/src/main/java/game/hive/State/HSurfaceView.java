@@ -54,15 +54,31 @@ public class HSurfaceView extends SurfaceView {
         final float b = 0.8660254f * s;
 
         final float colStep = s + a;  // 1.5 * s
+        final float rowStep = 2f * b;  // √3 * s
+
+        int rows = 17;
+        int cols = 18;
 
         float startX = 50f;
         float startY = 50f;
 
         // draw board
-        for (int i = 0; i <= 10; i++) {
-            float x0 = startX + i * (2*colStep); // skips a hexagon "space"
-            drawHex(x0, startY, 0, 0, hexColor, canvas); // row 0
-            drawHex(x0 + (s + a), startY + b, 0, 0, hexColor, canvas); //row offset
+
+        for (int r = 0; r < rows; r++) {
+            float yTop = startY + r * rowStep;
+
+            // row 1 skips a "hex space" horizontally -> (2 * colStep)
+            for (int c = 0; c < cols; c++) {
+                float x0 = startX + c * (2f * colStep);
+                drawHex(x0, yTop, 0, 0, hexColor, canvas);
+            }
+
+            // row 2 shift right by (s + a) and down by b
+            for (int c = 0; c < cols; c++) {
+                float x1 = startX + (s + a) + c * (2f * colStep);
+                float y1 = yTop + b;
+                drawHex(x1, y1, 0, 0, hexColor, canvas);
+            }
         }
         //sample piece
         if(pieces != null) {
