@@ -134,6 +134,14 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             // for coord debugger
             surfaceView.setDebugTap(x, y, p);
 
+            // prevent crash if off-board tap
+            if (p == null) {
+                return true;
+            }
+
+            int col = p.x;
+            int row = p.y;
+
             if(IsWhiteBeetleSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Beetle");
                 //Logger.log("onTouch", "Human player sending HMA ...");
