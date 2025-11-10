@@ -131,6 +131,9 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             int y = (int) event.getY();
             Point p = surfaceView.mapPixelToHex(x, y);
 
+            // for coord debugger
+            surfaceView.setDebugTap(x, y, p);
+
             if(IsWhiteBeetleSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Beetle");
                 //Logger.log("onTouch", "Human player sending HMA ...");

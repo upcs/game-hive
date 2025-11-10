@@ -26,7 +26,10 @@ public class HSurfaceView extends SurfaceView {
     final int a = (int) (LENGTH * Math.cos(1.047198)); // 30 degrees in radians
     final int b = (int) (LENGTH * Math.sin(1.047198)); // 30 degrees in radians
 
-
+    // debug vals
+    private float dbgX = -1f;
+    private float dbgY = -1f;
+    private Point dbgHexTile = null;
 
     private ArrayList<ArrayList<HexSpace>> board;
 
@@ -35,6 +38,7 @@ public class HSurfaceView extends SurfaceView {
     public HSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
+
         pieces = new HashMap<>();
         pieces.put("Beetle", BitmapFactory.decodeResource(getResources(), R.drawable.beetle));
         pieces.put("Grasshopper", BitmapFactory.decodeResource(getResources(), R.drawable.grasshopper));
@@ -46,12 +50,11 @@ public class HSurfaceView extends SurfaceView {
     }
     @Override
     public void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
         Paint hexColor = new Paint();
         hexColor.setColor(Color.RED);
 
         final float s = LENGTH;       //side length
-        final float a = 0.5f * s;
-        final float b = 0.8660254f * s;
 
         final float colStep = s + a;  // 1.5 * s
         final float rowStep = 2f * b;  // √3 * s
@@ -63,16 +66,13 @@ public class HSurfaceView extends SurfaceView {
         float startY = 50f;
 
         // draw board
-
         for (int r = 0; r < rows; r++) {
             float yTop = startY + r * rowStep;
-
             // row 1 skips a "hex space" horizontally -> (2 * colStep)
             for (int c = 0; c < cols; c++) {
                 float x0 = startX + c * (2f * colStep);
                 drawHex(x0, yTop, 0, 0, hexColor, canvas);
             }
-
             // row 2 shift right by (s + a) and down by b
             for (int c = 0; c < cols; c++) {
                 float x1 = startX + (s + a) + c * (2f * colStep);
@@ -92,8 +92,24 @@ public class HSurfaceView extends SurfaceView {
             canvas.drawBitmap(pieces.get("Beetle"), srcRect, dstRect, null);
         }
 
+        // debug overlay for coords
+        Paint box = new Paint(Paint.ANTI_ALIAS_FLAG);
+        box.setColor(Color.argb(180, 0, 0, 0));
+        canvas.drawRect(80, 60, 680, 170, box);
 
-        super.onDraw(canvas);
+        Paint tp = new Paint(Paint.ANTI_ALIAS_FLAG);
+        tp.setColor(Color.GREEN);
+        tp.setTextSize(40f);
+        // string lines
+        String line1 = (dbgX >= 0f) ? String.format("Pixel: (%.1f, %.1f)", dbgX, dbgY) : "Pixel: (tap anywhere)";
+        Point hexTile = (dbgHexTile != null) ? dbgHexTile : new Point(-1, -1);
+        String line2 = (dbgHexTile != null) ? String.format("Board: (col=%d, row=%d)", hexTile.x, hexTile.y) : "Board: (n/a)";
+        // overlay box coords
+        canvas.drawText(line1, 100f, 115f, tp);
+        canvas.drawText(line2, 100f, 160f, tp);
+
+        //end of debugger
+
         /*if(pieces != null){
             canvas.drawBitmap(pieces.get("Beetle"),0,0,null);
         }*/
@@ -126,12 +142,21 @@ public class HSurfaceView extends SurfaceView {
 
 
     }
-    public Point mapPixelToHex(int x, int y){
+
+    // convert map (x,y) to board (row,col)
+    public Point mapPixelToHex(float x, float y){
 
         return new Point(0,0);
     }
 
     public void setBoard(ArrayList<ArrayList<HexSpace>> board) {
         this.board = board;
+    }
+
+    public void setDebugTap(float x, float y, @androidx.annotation.Nullable Point hexTile) {
+        this.dbgX = x;
+        this.dbgY = y;
+        this.dbgHexTile = hexTile;
+        invalidate();
     }
 }
