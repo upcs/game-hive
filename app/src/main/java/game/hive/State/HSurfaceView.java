@@ -22,7 +22,7 @@ public class HSurfaceView extends SurfaceView {
     private HashMap<String, Bitmap> pieces; // creates hashmap for all the insect pieces
     private final int LENGTH = 40; // hypotenuse of right triangle
 
-    private final float s = LENGTH; // side
+    private final float s = LENGTH; // side length
 
     private static final float startX = 50f;
     private static final float startY = 50f;
@@ -192,19 +192,21 @@ public class HSurfaceView extends SurfaceView {
     // click inside hex?
     private boolean isInsideHex(float px, float py, float x0, float y0) {
         float dy = py - y0;
+        // if the y-distance from the top is negative or greater than twice the triangle height... the point cant be inside the hex
         if (dy < 0f || dy > 2f * b) return false;
 
         float dx = px - x0;
         if (dy <= b) {
             // top half hex
-            float left  = - (a / b) * dy;  // 0 -> -a
-            float right = s + (a / b) * dy; // s -> s+a
+            // dy increases from 0 to b (vert height of triangle)
+            float left  = - (a / b) * dy;  // 0 to -a
+            float right = s + (a / b) * dy; // s to s+a
             return dx >= left && dx <= right;
         } else {
             // bottom half of hex
             float t = dy - b;
-            float left  = -a + (a / b) * t; // -a -> 0
-            float right =  s + a - (a / b) * t;// s+a -> s
+            float left  = -a + (a / b) * t; // -a to 0
+            float right =  s + a - (a / b) * t;// s+a to s
             return dx >= left && dx <= right;
         }
     }
