@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,6 +41,12 @@ public class HSurfaceView extends SurfaceView {
     private float dbgY = -1f;
     private Point dbgHexTile = null;
 
+    private String[][] boardPieces = new String[TOTAL_ROWS][TOTAL_COLS];
+
+
+    private String selectedPiece = null;
+
+
     private ArrayList<ArrayList<HexSpace>> board;
 
     
@@ -47,21 +54,52 @@ public class HSurfaceView extends SurfaceView {
     public HSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
+        setFocusable(true);
+        setClickable(true);
 
         pieces = new HashMap<>();
         pieces.put("Beetle", BitmapFactory.decodeResource(getResources(), R.drawable.beetle));
         pieces.put("Grasshopper", BitmapFactory.decodeResource(getResources(), R.drawable.grasshopper));
-        pieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.hive_black_queen_logo_hd));
         pieces.put("Delete", BitmapFactory.decodeResource(getResources(), R.drawable.purple_delete_button));
         pieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.queenbee));
         pieces.put("Ant", BitmapFactory.decodeResource(getResources(), R.drawable.soldierant));
         pieces.put("Spider", BitmapFactory.decodeResource(getResources(), R.drawable.spider));
+        boardPieces[2][2] = "Ant";
+        boardPieces[2][3] = "Ant";
+        boardPieces[2][4] = "Ant";
+        boardPieces[2][8] = "Ant";
+        boardPieces[2][9] = "Ant";
+        boardPieces[2][10] = "Ant";
+
+        // 2 white & black spiders
+        boardPieces[4][2] = "Spider";
+        boardPieces[4][3] = "Spider";
+        boardPieces[4][8] = "Spider";
+        boardPieces[4][9] = "Spider";
+
+        // 2 white & black beetles
+        boardPieces[6][2] = "Beetle";
+        boardPieces[6][3] = "Beetle";
+        boardPieces[6][8] = "Beetle";
+        boardPieces[6][9] = "Beetle";
+
+        // 3 white & black grasshoppers
+        boardPieces[8][2] = "Grasshopper";
+        boardPieces[8][3] = "Grasshopper";
+        boardPieces[8][4] = "Grasshopper";
+        boardPieces[8][8] = "Grasshopper";
+        boardPieces[8][9] = "Grasshopper";
+        boardPieces[8][10] = "Grasshopper";
+
+        // 1 white & black queen bee
+        boardPieces[10][2] = "QueenBee";
+        boardPieces[10][8] = "QueenBee";
     }
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint hexColor = new Paint();
-        hexColor.setColor(Color.RED);
+        hexColor.setColor(Color.WHITE);
 
         final float s = LENGTH; //side length
 
@@ -80,6 +118,22 @@ public class HSurfaceView extends SurfaceView {
                 drawHex(x0, y0, hexColor, canvas);
             }
         }
+        //if (dbgHexTile != null) {
+          //  drawPieceAtHex(canvas, "Beetle", dbgHexTile.y, dbgHexTile.x);
+        //}
+        // draws pieces
+        for (int r = 0; r < TOTAL_ROWS; r++) {
+            for (int c = 0; c < TOTAL_COLS; c++) {
+                if (boardPieces[r][c] != null) {
+                    drawPieceAtHex(canvas, boardPieces[r][c], r, c);
+                }
+            }
+        }
+        if (dbgHexTile != null) {
+            drawPieceAtHex(canvas, "Beetle", dbgHexTile.y, dbgHexTile.x);
+        }
+
+        /*
         //sample piece
         if(pieces != null) {
             Rect srcRect = null; //new Rect(0,0, pieces.getWith(), pieces.getHeight());
@@ -91,12 +145,11 @@ public class HSurfaceView extends SurfaceView {
             // Paint paint = new Paint();
             canvas.drawBitmap(pieces.get("Beetle"), srcRect, dstRect, null);
             canvas.drawBitmap(pieces.get("QueenBee"), srcRect, dstRect, null);
-            canvas.drawBitmap(pieces.get("QueenBee"), srcRect, dstRect, null);
             canvas.drawBitmap(pieces.get("Ant"), srcRect, dstRect, null);
             canvas.drawBitmap(pieces.get("Spider"), srcRect, dstRect, null);
-            canvas.drawBitmap(pieces.get("delete"), srcRect, dstRect, null);
 
-        }
+
+        }*/
 
         // debug overlay for coords
         Paint box = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -109,7 +162,10 @@ public class HSurfaceView extends SurfaceView {
         // string lines
         String line1 = (dbgX >= 0f) ? String.format("Pixel: (%.1f, %.1f)", dbgX, dbgY) : "Pixel: (tap anywhere)";
         Point hexTile = (dbgHexTile != null) ? dbgHexTile : new Point(-1, -1);
-        String line2 = (dbgHexTile != null) ? String.format("Board: (col=%d, row=%d)", hexTile.x, hexTile.y) : "Board: (n/a)";
+        String line2 = (dbgHexTile != null) ?
+                String.format("Board: (col=%d, row=%d) Sel: %s", hexTile.x, hexTile.y,
+                        selectedPiece != null ? selectedPiece : "None") :
+                String.format("Board: (n/a) Sel: %s", selectedPiece != null ? selectedPiece : "None");
         // overlay box coords
         canvas.drawText(line1, 100f, 115f, tp);
         canvas.drawText(line2, 100f, 160f, tp);
@@ -120,11 +176,45 @@ public class HSurfaceView extends SurfaceView {
             canvas.drawBitmap(pieces.get("Beetle"),0,0,null);
         }*/
     }
-    public void drawPiece(Canvas canvas, String namePiece){
-        Rect srcRect = null;//new Rect(0,0, pieces.getWith(), pieces.getHeight());
-        Rect dstRect = new Rect(0,0,LENGTH, (int) (2*b));
-        //Paint paint = new Paint();
-        canvas.drawBitmap(pieces.get(namePiece),srcRect,dstRect,null);
+
+    public void drawPieceAtHex(Canvas canvas, String namePiece, int row, int col) {
+        Bitmap piece = pieces.get(namePiece);
+        if (piece == null) return;
+
+        // find hex pos
+        boolean isOdd = (row & 1) == 1;
+        float y0 = startY + row * b;
+        float xRowOffset = isOdd ? (s + a) : 0f;
+        float x0 = startX + xRowOffset + col * (2f * colStep);
+
+        // find center
+        float centerX = x0 + s / 2f;
+        float centerY = y0 + b;
+
+        // scaling
+        float scale = s * 1.5f / piece.getWidth();
+        int newWidth = (int)(piece.getWidth() * scale);
+        int newHeight = (int)(piece.getHeight() * scale);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(piece, newWidth, newHeight, true);
+
+        // draw on hex
+        float left = centerX - scaledBitmap.getWidth() / 2f;
+        float top = centerY - scaledBitmap.getHeight() / 2f;
+        canvas.drawBitmap(scaledBitmap, left, top, null);
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float x = event.getX();
+            float y = event.getY();
+
+            Point tappedHex = mapPixelToHex(x, y);
+
+
+            setDebugTap(x, y, tappedHex);
+            invalidate();
+        }
+        return true;
     }
 
     public void drawHex(float x, float y, Paint color, Canvas canvas){
