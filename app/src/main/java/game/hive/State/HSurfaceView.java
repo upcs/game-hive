@@ -90,6 +90,12 @@ public class HSurfaceView extends SurfaceView {
 
             // Paint paint = new Paint();
             canvas.drawBitmap(pieces.get("Beetle"), srcRect, dstRect, null);
+            canvas.drawBitmap(pieces.get("QueenBee"), srcRect, dstRect, null);
+            canvas.drawBitmap(pieces.get("QueenBee"), srcRect, dstRect, null);
+            canvas.drawBitmap(pieces.get("Ant"), srcRect, dstRect, null);
+            canvas.drawBitmap(pieces.get("Spider"), srcRect, dstRect, null);
+            canvas.drawBitmap(pieces.get("delete"), srcRect, dstRect, null);
+
         }
 
         // debug overlay for coords
