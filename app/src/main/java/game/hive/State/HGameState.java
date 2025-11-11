@@ -216,6 +216,10 @@ public class HGameState extends GameState implements View.OnClickListener {
         return Board;
     }
 
+    public int getActivePlayer() {
+        return activePlayer;
+    }
+
     @Override
     public String toString() {
         return "HiveState{"

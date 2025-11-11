@@ -46,7 +46,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
     public void receiveInfo(GameInfo info) {
         if(info instanceof HGameState){
             HGameState state = (HGameState)info;
-
+            Logger.log("recievedInfo","humanplayer has new state");
             surfaceView.setBoard(state.getBoard());
             surfaceView.invalidate();
         }
@@ -144,7 +144,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
 
             if(IsWhiteBeetleSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Beetle");
-                //Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteBeetleSelected = false;
@@ -152,7 +152,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             }
             else if(IsBlackBeetleSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Beetle");
-                //Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsBlackBeetleSelected = false;
@@ -160,7 +160,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             }
             else if(IsWhiteGrasshopperSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"GrassHopper");
-                //Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteGrasshopperSelected = false;
@@ -168,7 +168,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             }
             else if(IsBlackGrasshopperSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"GrassHopper");
-                //Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsBlackGrasshopperSelected = false;
@@ -176,7 +176,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             }
             else if(IsWhiteBeeSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Bee");
-                //Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteBeeSelected = false;
@@ -184,7 +184,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             }
             else if(IsBlackBeeSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Bee");
-                //Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsBlackBeeSelected = false;
@@ -192,7 +192,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             }
             else if(IsWhiteAntSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Ant");
-                //Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteAntSelected = false;
@@ -200,7 +200,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             }
             else if(IsBlackAntSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Ant");
-                //Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsBlackAntSelected = false;
@@ -208,7 +208,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             }
             else if(IsWhiteSpiderSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Spider");
-                //Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteSpiderSelected = false;
@@ -216,7 +216,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             }
             else if(IsBlackSpiderSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Spider");
-                //Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsBlackSpiderSelected = false;
@@ -225,7 +225,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             else if(IsHexSelected) {
 
                 HMoveAction action = new HMoveAction(this, LastX, LastY, p.x, p.y);
-                Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending move ...");
                 game.sendAction(action);
 
                 IsWhiteBeetleSelected = false;
@@ -243,7 +243,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             else{
                 LastX = p.x;
                 LastY = p.y;
-
+                Logger.log("ishexSelected","human player");
                 IsHexSelected = true;
             }
 

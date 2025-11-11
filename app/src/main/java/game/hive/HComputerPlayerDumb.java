@@ -2,6 +2,9 @@ package game.hive;
 
 import game.hive.GameFramework.infoMessage.GameInfo;
 import game.hive.GameFramework.players.GameComputerPlayer;
+import game.hive.GameFramework.utilities.Logger;
+import game.hive.State.HGameState;
+import game.hive.State.HSurfaceView;
 
 public class HComputerPlayerDumb extends GameComputerPlayer {
 
@@ -22,6 +25,12 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
+        if(info instanceof HGameState){
+            HPlaceAction action =  new HPlaceAction(this,6,6,"Spider");
+            Logger.log("computer", "computer player sending HMA ...");
+            game.sendAction(action);
+
+        }
 
 
         //Logger.log("TTTComputer", "Sending move");

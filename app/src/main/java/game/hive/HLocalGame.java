@@ -3,6 +3,7 @@ package game.hive;
 import game.hive.GameFramework.LocalGame;
 import game.hive.GameFramework.actionMessage.GameAction;
 import game.hive.GameFramework.players.GamePlayer;
+import game.hive.GameFramework.utilities.Logger;
 import game.hive.State.HGameState;
 
 public class HLocalGame extends LocalGame {
@@ -21,17 +22,22 @@ public class HLocalGame extends LocalGame {
 
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
-
+        // make a copy of the state, and send it to the player
+        p.sendInfo(new HGameState(((HGameState) state)));
     }
 
     @Override
     protected boolean canMove(int playerIdx) {
-        return false;
+        if(state == null){
+            return false;
+        }
+        HGameState mystate = (HGameState)state;
+        return mystate.getActivePlayer()==playerIdx;
     }
 
     @Override
     protected String checkIfGameOver() {
-        return "";
+        return null;
     }
 
     @Override
@@ -40,10 +46,11 @@ public class HLocalGame extends LocalGame {
         // get the row and column position of the player's move
 
         HGameState state = (HGameState) super.state;
-
+        Logger.log("makemove","recived an action");
 
         if(action instanceof HPlaceAction)
         {
+            Logger.log("makemove","recived place action");
             HPlaceAction tm = (HPlaceAction) action;
             int X = tm.getX();
             int Y = tm.getY();
@@ -53,7 +60,7 @@ public class HLocalGame extends LocalGame {
 
             // if it is this player's turn, indicate an illegal move
             if (!canMove(playerId)) return false;
-
+            Logger.log("makemove","making place action");
             return state.placePiece(X,Y,name,playerId);
 
 
