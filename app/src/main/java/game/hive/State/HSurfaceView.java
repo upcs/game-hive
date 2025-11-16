@@ -34,6 +34,7 @@ public class HSurfaceView extends SurfaceView {
     private final float colStep = s + a;
     private static final int TOTAL_ROWS = 34;
     private static final int TOTAL_COLS = 18;
+    private String[][] boardPieces = new String[TOTAL_ROWS][TOTAL_COLS];
 
 
     // debug vals
@@ -41,7 +42,6 @@ public class HSurfaceView extends SurfaceView {
     private float dbgY = -1f;
     private Point dbgHexTile = null;
 
-    //private String[][] boardPieces = new String[TOTAL_ROWS][TOTAL_COLS];
 
 
     private String selectedPiece = null;
@@ -64,7 +64,8 @@ public class HSurfaceView extends SurfaceView {
         pieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.queenbee));
         pieces.put("Ant", BitmapFactory.decodeResource(getResources(), R.drawable.soldierant));
         pieces.put("Spider", BitmapFactory.decodeResource(getResources(), R.drawable.spider));
-        /*boardPieces[2][2] = "Ant";
+
+        boardPieces[2][2] = "Ant";
         boardPieces[2][3] = "Ant";
         boardPieces[2][4] = "Ant";
         boardPieces[2][8] = "Ant";
@@ -93,7 +94,7 @@ public class HSurfaceView extends SurfaceView {
 
         // 1 white & black queen bee
         boardPieces[10][2] = "QueenBee";
-        boardPieces[10][8] = "QueenBee";*/
+        boardPieces[10][8] = "QueenBee";
     }
     @Override
     public void onDraw(Canvas canvas) {

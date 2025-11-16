@@ -83,15 +83,15 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
         BlackSpider.setOnTouchListener(this);
 
         WhiteBeetle.setImageResource(R.drawable.beetle);
-        BlackBeetle.setImageResource(R.drawable.beetle);
+        BlackBeetle.setImageResource(R.drawable.blkbeetle);
         WhiteGrasshopper.setImageResource(R.drawable.grasshopper);
-        BlackGrasshopper.setImageResource(R.drawable.grasshopper);
+        BlackGrasshopper.setImageResource(R.drawable.blkgrasshopper);
         WhiteBee.setImageResource(R.drawable.queenbee);
-        BlackBee.setImageResource(R.drawable.queenbee);
+        BlackBee.setImageResource(R.drawable.blkqueenbee);
         WhiteAnt.setImageResource(R.drawable.soldierant);
-        BlackAnt.setImageResource(R.drawable.soldierant);
+        BlackAnt.setImageResource(R.drawable.blkant);
         WhiteSpider.setImageResource(R.drawable.spider);
-        BlackSpider.setImageResource(R.drawable.spider);
+        BlackSpider.setImageResource(R.drawable.blkspider);
         //WhiteBeetle.invalidate();
 
     }
