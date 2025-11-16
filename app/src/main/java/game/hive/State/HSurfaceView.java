@@ -41,7 +41,7 @@ public class HSurfaceView extends SurfaceView {
     private float dbgY = -1f;
     private Point dbgHexTile = null;
 
-    private String[][] boardPieces = new String[TOTAL_ROWS][TOTAL_COLS];
+    //private String[][] boardPieces = new String[TOTAL_ROWS][TOTAL_COLS];
 
 
     private String selectedPiece = null;
@@ -64,7 +64,7 @@ public class HSurfaceView extends SurfaceView {
         pieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.queenbee));
         pieces.put("Ant", BitmapFactory.decodeResource(getResources(), R.drawable.soldierant));
         pieces.put("Spider", BitmapFactory.decodeResource(getResources(), R.drawable.spider));
-        boardPieces[2][2] = "Ant";
+        /*boardPieces[2][2] = "Ant";
         boardPieces[2][3] = "Ant";
         boardPieces[2][4] = "Ant";
         boardPieces[2][8] = "Ant";
@@ -93,13 +93,14 @@ public class HSurfaceView extends SurfaceView {
 
         // 1 white & black queen bee
         boardPieces[10][2] = "QueenBee";
-        boardPieces[10][8] = "QueenBee";
+        boardPieces[10][8] = "QueenBee";*/
     }
     @Override
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint hexColor = new Paint();
         hexColor.setColor(Color.WHITE);
+
 
         final float s = LENGTH; //side length
 
@@ -122,10 +123,12 @@ public class HSurfaceView extends SurfaceView {
           //  drawPieceAtHex(canvas, "Beetle", dbgHexTile.y, dbgHexTile.x);
         //}
         // draws pieces
-        for (int r = 0; r < TOTAL_ROWS; r++) {
-            for (int c = 0; c < TOTAL_COLS; c++) {
-                if (boardPieces[r][c] != null) {
-                    drawPieceAtHex(canvas, boardPieces[r][c], r, c);
+        if(board!=null) {
+            for (int r = 0; r < board.size(); r++) {
+                for (int c = 0; c < board.size(); c++) {
+                    if (board.get(r).get(c).getHex() != null) {
+                        drawPieceAtHex(canvas, board.get(r).get(c).getHex().getName(), r, c);
+                    }
                 }
             }
         }

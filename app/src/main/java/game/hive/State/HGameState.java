@@ -70,12 +70,28 @@ public class HGameState extends GameState implements View.OnClickListener {
     //deep copy constructor
     public HGameState(HGameState orig){
         this.activePlayer = orig.activePlayer;
+        this.isBeePlaced = new boolean[2];
         this.isBeePlaced[0] = orig.isBeePlaced[0];
         this.isBeePlaced[1] = orig.isBeePlaced[1];
         this.turnNumber = orig.turnNumber;
-        this.WhitesHand = orig.WhitesHand;
-        this.BlacksHand = orig.BlacksHand;
-        this.Board = orig.Board;
+        //this.WhitesHand = orig.WhitesHand;
+        //this.BlacksHand = orig.BlacksHand;
+        //this.Board = orig.Board;
+        WhitesHand = new ArrayList<>();
+        for(Hex hex : orig.WhitesHand){
+            WhitesHand.add(new Hex(hex));
+        }
+        BlacksHand = new ArrayList<>();
+        for(Hex hex : orig.BlacksHand) {
+            BlacksHand.add(new Hex(hex));
+        }
+        Board = new ArrayList<>();
+        for(int i=0;i<orig.Board.size();i++){
+            Board.add(new ArrayList<>());
+            for(int j=0;j<orig.Board.size();j++){
+                Board.get(i).add(new HexSpace(orig.Board.get(i).get(j)));
+            }
+        }
     }
 
     public boolean placePiece(int X, int Y, String name, int playerId) {
@@ -110,53 +126,53 @@ public class HGameState extends GameState implements View.OnClickListener {
             return false;
         }
          else if (turnNumber == 2) {
-            if((Side1.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
-                    (Side1.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+            if((Side1.getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side1.getColor()== Hex.Color.BLACK && activePlayer==0)){
                 valid = true;
             }
-            else if((Side2.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
-                    (Side2.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+            else if((Side2.getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side2.getColor()== Hex.Color.BLACK && activePlayer==0)){
                 valid = true;
             }
-            else if((Side3.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
-                    (Side3.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+            else if((Side3.getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side3.getColor()== Hex.Color.BLACK && activePlayer==0)){
                 valid = true;
             }
-            else if((Side4.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
-                    (Side4.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+            else if((Side4.getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side4.getColor()== Hex.Color.BLACK && activePlayer==0)){
                 valid = true;
             }
-            else if((Side5.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
-                    (Side5.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+            else if((Side5.getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side5.getColor()== Hex.Color.BLACK && activePlayer==0)){
                 valid = true;
             }
-            else if((Side6.getHex().getColor()== Hex.Color.WHITE && activePlayer==1)||
-                    (Side6.getHex().getColor()== Hex.Color.BLACK && activePlayer==0)){
+            else if((Side6.getColor()== Hex.Color.WHITE && activePlayer==1)||
+                    (Side6.getColor()== Hex.Color.BLACK && activePlayer==0)){
                 valid = true;
             }
 
-        } else if((Side1.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
-                (Side1.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+        } else if((Side1.getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side1.getColor()== Hex.Color.BLACK && activePlayer==1)){
             valid = true;
         }
-        else if((Side2.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
-                (Side2.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+        else if((Side2.getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side2.getColor()== Hex.Color.BLACK && activePlayer==1)){
             valid = true;
         }
-        else if((Side3.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
-                (Side3.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+        else if((Side3.getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side3.getColor()== Hex.Color.BLACK && activePlayer==1)){
             valid = true;
         }
-        else if((Side4.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
-                (Side4.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+        else if((Side4.getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side4.getColor()== Hex.Color.BLACK && activePlayer==1)){
             valid = true;
         }
-        else if((Side5.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
-                (Side5.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+        else if((Side5.getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side5.getColor()== Hex.Color.BLACK && activePlayer==1)){
             valid = true;
         }
-        else if((Side6.getHex().getColor()== Hex.Color.WHITE && activePlayer==0)||
-                (Side6.getHex().getColor()== Hex.Color.BLACK && activePlayer==1)){
+        else if((Side6.getColor()== Hex.Color.WHITE && activePlayer==0)||
+                (Side6.getColor()== Hex.Color.BLACK && activePlayer==1)){
             valid = true;
         }
 
@@ -198,8 +214,8 @@ public class HGameState extends GameState implements View.OnClickListener {
         HexSpace Side5 = Board.get(Xdest).get(Ydest+1);
         HexSpace Side6 = Board.get(Xdest+1).get(Ydest+1);
         if(DestinationHex.getHex()==null &&
-                ((SelectedHex.getHex().getColor()== Hex.Color.WHITE && playerId==0)||
-                (SelectedHex.getHex().getColor()== Hex.Color.BLACK && playerId==1))&&
+                ((SelectedHex.getColor()== Hex.Color.WHITE && playerId==0)||
+                (SelectedHex.getColor()== Hex.Color.BLACK && playerId==1))&&
                 (Side1!=null||Side2!=null||Side3!=null||Side4!=null||Side5!=null||Side6!=null)){
             valid=true;
         }
