@@ -132,7 +132,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             Point p = surfaceView.mapPixelToHex(x, y);
 
             // for coord debugger
-            //surfaceView.setDebugTap(x, y, p);
+            surfaceView.setDebugTap(x, y, p);
 
             // prevent crash if off-board tap
             if (p == null) {
