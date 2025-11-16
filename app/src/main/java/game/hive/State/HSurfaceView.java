@@ -33,7 +33,7 @@ public class HSurfaceView extends SurfaceView {
 
     private final float colStep = s + a;
     private static final int TOTAL_ROWS = 34;
-    private static final int TOTAL_COLS = 18;
+    private static final int TOTAL_COLS = 17;
     private String[][] boardPieces = new String[TOTAL_ROWS][TOTAL_COLS];
 
 
