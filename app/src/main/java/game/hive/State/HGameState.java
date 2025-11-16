@@ -108,8 +108,8 @@ public class HGameState extends GameState implements View.OnClickListener {
         boolean valid = false;
         if(turnNumber == 1){
             valid = true;
-            X = 15;
-            Y = 15;
+            X = 5;
+            Y = 5;
         }
 
 

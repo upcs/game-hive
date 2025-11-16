@@ -21,7 +21,7 @@ import game.hive.R;
 public class HSurfaceView extends SurfaceView {
     //private Bitmap myImageBitmap;
     private HashMap<String, Bitmap> pieces; // creates hashmap for all the insect pieces
-    private final int LENGTH = 40; // hypotenuse of right triangle
+    private final int LENGTH = 60; // hypotenuse of right triangle
 
     private final float s = LENGTH; // side length
 
@@ -32,8 +32,8 @@ public class HSurfaceView extends SurfaceView {
     private final float b = 0.8660254f * s; // vertical offset (≈ √3/2 * s)
 
     private final float colStep = s + a;
-    private static final int TOTAL_ROWS = 34;
-    private static final int TOTAL_COLS = 18;
+    private static final int TOTAL_ROWS = 22;
+    private static final int TOTAL_COLS = 12;
 
 
     // debug vals
