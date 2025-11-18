@@ -8,6 +8,8 @@ import game.hive.GameFramework.utilities.Logger;
 import game.hive.State.HGameState;
 import game.hive.State.HSurfaceView;
 import game.hive.State.Hex;
+import game.hive.State.HexSpace;
+import kotlin.Pair;
 
 public class HComputerPlayerDumb extends GameComputerPlayer {
 
@@ -34,8 +36,6 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
             //place rnd piece until no more pieces
             ArrayList<Hex> hand = state.getBlackHand();
 
-
-
             if(hand.size()>0) {
                 int rndNum = (int) Math.random() * (hand.size()-1);
                 String rndPiece = hand.get(rndNum).getName() ;
@@ -49,6 +49,35 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
             }
             else {
                 //TODO: pick rnd piece to move
+
+                // make array list of hexes
+                ArrayList< Pair<Hex, Pair<Integer,Integer> > > comPiece = new ArrayList<>();
+                ArrayList<ArrayList<HexSpace>> board = state.getBoard();
+                for (int r = 0; r < board.size(); r++) {
+                    for (int c = 0; c < board.size(); c++) {
+                        if (board.get(r).get(c).getHex() != null) {
+                            //if my piece add to list
+                            if(board.get(r).get(c).getHex().getColor() == Hex.Color.BLACK)
+                            {
+                                comPiece.add(new Pair<>(board.get(r).get(c).getHex(), new Pair<>(r,c)));
+                            }
+                        }
+                    }
+                    //rnd pick the array again
+                    int rndNum = (int) Math.random() * (comPiece.size()-1);
+                    String selRndPiece = comPiece.get(rndNum);
+
+                    HMoveAction actionMove =  new HMoveAction(this,LastX, LastY, p.x, p.y);
+                    game.sendAction(actionMove);
+
+                    // rndmly pick location that valid
+                    //
+
+
+
+
+                }//done
+
 
 
             }
