@@ -97,7 +97,7 @@ public class HSurfaceView extends SurfaceView {
 
             for (int col = 0; col < TOTAL_COLS; col++) {
                 float x0 = startX + xRowOffset + col * (2f * colStep);
-                drawHex(x0, y0, hexColor, canvas);
+                drawHex(x0, y0, hexColor, canvas, r, col);
             }
         }
 
@@ -107,6 +107,7 @@ public class HSurfaceView extends SurfaceView {
                 for (int c = 0; c < board.size(); c++) {
                     if (board.get(r).get(c).getHex() != null) {
                         drawPieceAtHex(canvas, board.get(r).get(c).getHex().getName(), r, c, board.get(r).get(c).getHex().getColor());
+
                     }
                 }
             }
@@ -201,7 +202,7 @@ public class HSurfaceView extends SurfaceView {
         return true;
     }
 
-    public void drawHex(float x, float y, Paint color, Canvas canvas){
+    public void drawHex(float x, float y, Paint color, Canvas canvas, int row, int col){
 
         color.setStyle(Paint.Style.STROKE);
         color.setStrokeWidth(5);
@@ -219,6 +220,20 @@ public class HSurfaceView extends SurfaceView {
         // top left
         canvas.drawLine(x - a, y + b, x, y, color);
 
+
+        //draws coordinates at hex when it is drawn
+        Paint textPaint = new Paint();
+        textPaint.setColor(Color.GREEN);
+        textPaint.setTextSize(28f);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+
+        // calculate center of hex
+        float centerX = x + s / 2f;
+        float centerY = y + b;
+
+        String text = col + "," + row; 
+
+        canvas.drawText(text, centerX, centerY, textPaint);
 
     }
 
