@@ -1,6 +1,7 @@
 package game.hive;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import game.hive.GameFramework.infoMessage.GameInfo;
 import game.hive.GameFramework.players.GameComputerPlayer;
@@ -37,7 +38,8 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
             ArrayList<Hex> hand = state.getBlackHand();
 
             if(hand.size()>0) {
-                int rndNum = (int) Math.random() * (hand.size());
+                Random rand = new Random();
+                int rndNum = rand.nextInt(hand.size());
                 String rndPiece = hand.get(rndNum).getName() ;
 
                 //TODO: pick valid location
@@ -47,6 +49,7 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
                 game.sendAction(action);
 
             }
+
             else {
                 //TODO: pick rnd piece to move
 
