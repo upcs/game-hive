@@ -271,6 +271,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
             else if(IsWhiteGrasshopperSelected){
+                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Grasshopper");
                 Logger.log("onTouch", "Human player sending Place White GrassHopper...");
                 game.sendAction(action);
                 surfaceView.invalidate();
@@ -278,6 +279,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
             else if(IsBlackGrasshopperSelected){
+                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Grasshopper");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
@@ -285,6 +287,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
             else if(IsWhiteBeeSelected){
+                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"QueenBee");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
@@ -292,6 +295,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
             else if(IsBlackBeeSelected){
+                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"QueenBee");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
