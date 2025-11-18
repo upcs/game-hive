@@ -107,6 +107,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackBeetleSelected = true;
         } else if(v.getId()==R.id.WhiteGrasshopper){
             IsWhiteGrasshopperSelected = true;
+            Logger.log("onTouch()","WhiteGrasshopperselected");
         } else if(v.getId()==R.id.BlackGrasshopper){
             IsBlackGrasshopperSelected = true;
         } else if(v.getId()==R.id.WhiteBee){
@@ -160,7 +161,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             }
             else if(IsWhiteGrasshopperSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"GrassHopper");
-                Logger.log("onTouch", "Human player sending HMA ...");
+                Logger.log("onTouch", "Human player sending Place White GrassHopper...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteGrasshopperSelected = false;

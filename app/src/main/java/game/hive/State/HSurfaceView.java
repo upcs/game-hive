@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import game.hive.GameFramework.utilities.Logger;
 import game.hive.R;
 
 
@@ -128,6 +129,7 @@ public class HSurfaceView extends SurfaceView {
             for (int r = 0; r < board.size(); r++) {
                 for (int c = 0; c < board.size(); c++) {
                     if (board.get(r).get(c).getHex() != null) {
+                        Logger.log("onDraw","drawing piece at "+r+", "+c );
                         drawPieceAtHex(canvas, board.get(r).get(c).getHex().getName(), r, c);
                     }
                 }
