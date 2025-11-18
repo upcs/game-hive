@@ -251,8 +251,8 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
 
-            int col = p.x;
-            int row = p.y;
+            int row = p.x;
+            int col = p.y;
 
             if(IsWhiteBeetleSelected){
                 HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Beetle");

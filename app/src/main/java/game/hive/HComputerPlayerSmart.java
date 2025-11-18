@@ -29,6 +29,10 @@ public class HComputerPlayerSmart extends GameComputerPlayer {
             Logger.log("computer", "computer player sending HMA ...");
             game.sendAction(action);
 
+            // if there is a piece that can be placed, place the piece by the opponent to "block"
+            //if there is no piece that can be placed, move a piece to "block"
+
+
         }
         //Logger.log("TTTComputer", "Sending move");
         //game.sendAction(new TTTMoveAction(this, yVal, xVal));

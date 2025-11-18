@@ -7,7 +7,7 @@ public class HPlaceAction extends GameAction {
     private int X;
     private int Y;
     private String Name;
-    public HPlaceAction(GamePlayer player, int X, int Y, String name){
+    public HPlaceAction(GamePlayer player, int Y, int X, String name){
         // invoke superclass constructor to set the player
         super(player);
 
