@@ -115,11 +115,11 @@ public class HGameState extends GameState implements View.OnClickListener {
 
 
         HexSpace SelectedHex = Board.get(X).get(Y);
-        HexSpace Side1 = Board.get(X).get(Y-2);
-        HexSpace Side2 = Board.get(X).get(Y-1);
-        HexSpace Side3 = Board.get(X).get(Y+1);
-        HexSpace Side4 = Board.get(X).get(Y+2);
-        HexSpace Side5 = Board.get(X-1).get(Y+1);
+        HexSpace Side1 = Board.get(X-2).get(Y);
+        HexSpace Side2 = Board.get(X-1).get(Y);
+        HexSpace Side3 = Board.get(X+1).get(Y);
+        HexSpace Side4 = Board.get(X+2).get(Y);
+        HexSpace Side5 = Board.get(X+1).get(Y-1);
         HexSpace Side6 = Board.get(X-1).get(Y-1);
 
         //check location is empty
@@ -239,6 +239,10 @@ public class HGameState extends GameState implements View.OnClickListener {
 
     public int getActivePlayer() {
         return activePlayer;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
     }
 
     @Override

@@ -26,7 +26,8 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
     @Override
     protected void receiveInfo(GameInfo info) {
         if(info instanceof HGameState){
-            HPlaceAction action =  new HPlaceAction(this,6,6,"Spider");
+            int turn = ((HGameState) info).getTurnNumber();
+            HPlaceAction action =  new HPlaceAction(this,6+(turn),7,"Spider");
             Logger.log("computer", "computer player sending place spider ...");
             game.sendAction(action);
 
