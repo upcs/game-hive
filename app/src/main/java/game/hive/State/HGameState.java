@@ -247,5 +247,6 @@ public class HGameState extends GameState implements View.OnClickListener {
                 + "}";
     }
 
+    public ArrayList<Hex> getBlackHand() {return BlacksHand;}
 
 }
