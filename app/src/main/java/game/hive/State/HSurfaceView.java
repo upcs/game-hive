@@ -22,6 +22,7 @@ import game.hive.R;
 public class HSurfaceView extends SurfaceView {
     //private Bitmap myImageBitmap;
     private HashMap<String, Bitmap> pieces; // creates hashmap for all the insect pieces
+    private HashMap<String, Bitmap> blackPieces;
     private final int LENGTH = 40; // hypotenuse of right triangle
 
     private final float s = LENGTH; // side length
@@ -66,36 +67,14 @@ public class HSurfaceView extends SurfaceView {
         pieces.put("Ant", BitmapFactory.decodeResource(getResources(), R.drawable.soldierant));
         pieces.put("Spider", BitmapFactory.decodeResource(getResources(), R.drawable.spider));
 
-        boardPieces[2][2] = "Ant";
-        boardPieces[2][3] = "Ant";
-        boardPieces[2][4] = "Ant";
-        boardPieces[2][8] = "Ant";
-        boardPieces[2][9] = "Ant";
-        boardPieces[2][10] = "Ant";
+        blackPieces = new HashMap<>();
+        blackPieces.put("Beetle", BitmapFactory.decodeResource(getResources(), R.drawable.blkbeetle));
+        blackPieces.put("Grasshopper", BitmapFactory.decodeResource(getResources(), R.drawable.blkgrasshopper));
+        blackPieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.blkqueenbee));
+        blackPieces.put("Delete", BitmapFactory.decodeResource(getResources(), R.drawable.purple_delete_button));
+        blackPieces.put("Ant", BitmapFactory.decodeResource(getResources(), R.drawable.blkant));
+        blackPieces.put("Spider", BitmapFactory.decodeResource(getResources(), R.drawable.blkspider));
 
-        // 2 white & black spiders
-        boardPieces[4][2] = "Spider";
-        boardPieces[4][3] = "Spider";
-        boardPieces[4][8] = "Spider";
-        boardPieces[4][9] = "Spider";
-
-        // 2 white & black beetles
-        boardPieces[6][2] = "Beetle";
-        boardPieces[6][3] = "Beetle";
-        boardPieces[6][8] = "Beetle";
-        boardPieces[6][9] = "Beetle";
-
-        // 3 white & black grasshoppers
-        boardPieces[8][2] = "Grasshopper";
-        boardPieces[8][3] = "Grasshopper";
-        boardPieces[8][4] = "Grasshopper";
-        boardPieces[8][8] = "Grasshopper";
-        boardPieces[8][9] = "Grasshopper";
-        boardPieces[8][10] = "Grasshopper";
-
-        // 1 white & black queen bee
-        boardPieces[10][2] = "QueenBee";
-        boardPieces[10][8] = "QueenBee";
     }
     @Override
     public void onDraw(Canvas canvas) {
@@ -121,23 +100,18 @@ public class HSurfaceView extends SurfaceView {
                 drawHex(x0, y0, hexColor, canvas);
             }
         }
-        //if (dbgHexTile != null) {
-          //  drawPieceAtHex(canvas, "Beetle", dbgHexTile.y, dbgHexTile.x);
-        //}
+
         // draws pieces
         if(board!=null) {
             for (int r = 0; r < board.size(); r++) {
                 for (int c = 0; c < board.size(); c++) {
                     if (board.get(r).get(c).getHex() != null) {
-                        Logger.log("onDraw","drawing piece at "+r+", "+c );
-                        drawPieceAtHex(canvas, board.get(r).get(c).getHex().getName(), r, c);
+                        drawPieceAtHex(canvas, board.get(r).get(c).getHex().getName(), r, c, board.get(r).get(c).getHex().getColor());
                     }
                 }
             }
         }
-        if (dbgHexTile != null) {
-            drawPieceAtHex(canvas, "Beetle", dbgHexTile.y, dbgHexTile.x);
-        }
+
 
         /*
         //sample piece
@@ -183,9 +157,13 @@ public class HSurfaceView extends SurfaceView {
         }*/
     }
 
-    public void drawPieceAtHex(Canvas canvas, String namePiece, int row, int col) {
-        Bitmap piece = pieces.get(namePiece);
-        if (piece == null) return;
+    public void drawPieceAtHex(Canvas canvas, String namePiece, int row, int col, Hex.Color color) {
+        Bitmap piece;
+        if (color == Hex.Color.WHITE) {
+            piece = pieces.get(namePiece);
+        } else{
+            piece = blackPieces.get(namePiece);
+        }
 
         // find hex pos
         boolean isOdd = (row & 1) == 1;
