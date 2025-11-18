@@ -114,24 +114,6 @@ public class HSurfaceView extends SurfaceView {
         }
 
 
-        /*
-        //sample piece
-        if(pieces != null) {
-            Rect srcRect = null; //new Rect(0,0, pieces.getWith(), pieces.getHeight());
-            Rect dstRect = new Rect((int)(startX + s),
-                    (int)(startY + b),
-                    (int)(startX + s + LENGTH),
-                    (int)(startY + b + 2*b));
-
-            // Paint paint = new Paint();
-            canvas.drawBitmap(pieces.get("Beetle"), srcRect, dstRect, null);
-            canvas.drawBitmap(pieces.get("QueenBee"), srcRect, dstRect, null);
-            canvas.drawBitmap(pieces.get("Ant"), srcRect, dstRect, null);
-            canvas.drawBitmap(pieces.get("Spider"), srcRect, dstRect, null);
-
-
-        }*/
-
         // debug overlay for coords
         Paint box = new Paint(Paint.ANTI_ALIAS_FLAG);
         box.setColor(Color.argb(180, 0, 0, 0));
@@ -140,22 +122,23 @@ public class HSurfaceView extends SurfaceView {
         Paint tp = new Paint(Paint.ANTI_ALIAS_FLAG);
         tp.setColor(Color.GREEN);
         tp.setTextSize(40f);
+
         // string lines
-        String line1 = (dbgX >= 0f) ? String.format("Pixel: (%.1f, %.1f)", dbgX, dbgY) : "Pixel: (tap anywhere)";
-        Point hexTile = (dbgHexTile != null) ? dbgHexTile : new Point(-1, -1);
-        String line2 = (dbgHexTile != null) ?
-                String.format("Board: (col=%d, row=%d) Sel: %s", hexTile.x, hexTile.y,
-                        selectedPiece != null ? selectedPiece : "None") :
-                String.format("Board: (n/a) Sel: %s", selectedPiece != null ? selectedPiece : "None");
+        String line1 = String.format("Pixel: (%.1f, %.1f)", dbgX, dbgY);
+
+        Point hexTile;
+        if (dbgHexTile != null) {
+            // If dbgHexTile exists set to hex tile
+            hexTile = dbgHexTile;
+        } else {
+            //if null set to point 0,0
+            hexTile = new Point(0, 0);
+        }
+        String line2 = String.format("Board: (col=%d, row=%d)", hexTile.x, hexTile.y);
         // overlay box coords
         canvas.drawText(line1, 100f, 115f, tp);
         canvas.drawText(line2, 100f, 160f, tp);
-
         //end of debugger
-
-        /*if(pieces != null){
-            canvas.drawBitmap(pieces.get("Beetle"),0,0,null);
-        }*/
     }
 
     public void drawPieceAtHex(Canvas canvas, String namePiece, int row, int col, Hex.Color color) {
@@ -231,7 +214,7 @@ public class HSurfaceView extends SurfaceView {
         float centerX = x + s / 2f;
         float centerY = y + b;
 
-        String text = col + "," + row; 
+        String text = col + "," + row;
 
         canvas.drawText(text, centerX, centerY, textPaint);
 
