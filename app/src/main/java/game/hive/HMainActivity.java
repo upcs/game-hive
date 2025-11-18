@@ -41,6 +41,12 @@ public class HMainActivity extends GameMainActivity {
                 return new HComputerPlayerDumb(name);
             }
         });
+        // smart computer player
+        playerTypes.add(new GamePlayerType("Computer Player (smart)") {
+            public GamePlayer createPlayer(String name) {
+                return new HComputerPlayerSmart(name);
+            }
+        });
         // Create a game configuration class for Hive
         GameConfig defaultConfig = new GameConfig(playerTypes, 2,2, "Hive", PORT_NUMBER);
 

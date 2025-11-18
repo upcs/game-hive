@@ -2,6 +2,8 @@ package game.hive;
 
 import game.hive.GameFramework.infoMessage.GameInfo;
 import game.hive.GameFramework.players.GameComputerPlayer;
+import game.hive.GameFramework.utilities.Logger;
+import game.hive.State.HGameState;
 
 public class HComputerPlayerSmart extends GameComputerPlayer {
 
@@ -12,6 +14,7 @@ public class HComputerPlayerSmart extends GameComputerPlayer {
         // invoke superclass constructor
         super(name); // invoke superclass constructor
     }
+
     /**
      * Called when the player receives a game-state (or other info) from the
      * game.
@@ -21,8 +24,12 @@ public class HComputerPlayerSmart extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
+        if(info instanceof HGameState){
+            HPlaceAction action =  new HPlaceAction(this,6,6,"Beetle");
+            Logger.log("computer", "computer player sending HMA ...");
+            game.sendAction(action);
 
-
+        }
         //Logger.log("TTTComputer", "Sending move");
         //game.sendAction(new TTTMoveAction(this, yVal, xVal));
 

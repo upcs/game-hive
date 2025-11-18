@@ -5,6 +5,7 @@ import android.view.View;
 import java.util.ArrayList;
 
 import game.hive.GameFramework.infoMessage.GameState;
+import game.hive.GameFramework.utilities.Logger;
 
 public class HGameState extends GameState implements View.OnClickListener {
     int activePlayer; //0 for White player, 1 for Black Player
@@ -108,18 +109,18 @@ public class HGameState extends GameState implements View.OnClickListener {
         boolean valid = false;
         if(turnNumber == 1){
             valid = true;
-            X = 15;
-            Y = 15;
+            X = 7;
+            Y = 7;
         }
 
 
         HexSpace SelectedHex = Board.get(X).get(Y);
-        HexSpace Side1 = Board.get(X).get(Y-1);
-        HexSpace Side2 = Board.get(X+1).get(Y-1);
-        HexSpace Side3 = Board.get(X-1).get(Y);
-        HexSpace Side4 = Board.get(X+1).get(Y);
-        HexSpace Side5 = Board.get(X).get(Y+1);
-        HexSpace Side6 = Board.get(X+1).get(Y+1);
+        HexSpace Side1 = Board.get(X-2).get(Y);
+        HexSpace Side2 = Board.get(X-1).get(Y);
+        HexSpace Side3 = Board.get(X+1).get(Y);
+        HexSpace Side4 = Board.get(X+2).get(Y);
+        HexSpace Side5 = Board.get(X+1).get(Y-1);
+        HexSpace Side6 = Board.get(X-1).get(Y-1);
 
         //check location is empty
         if(SelectedHex.getHex()!=null){
@@ -179,12 +180,16 @@ public class HGameState extends GameState implements View.OnClickListener {
         //check valid move
 
         if(valid){
-            if(activePlayer==1) {
+            if(activePlayer==0) {
                 SelectedHex.setHex(new Hex(Hex.Color.WHITE, name));
+                Logger.log("place piece","placed white piece");
+
             }
             else{
                 SelectedHex.setHex(new Hex(Hex.Color.BLACK, name));
+                Logger.log("place piece","placed black piece");
             }
+            turnNumber++;
             activePlayer=1-activePlayer;
             return true;
         }
@@ -207,12 +212,12 @@ public class HGameState extends GameState implements View.OnClickListener {
         boolean valid = false;
         HexSpace SelectedHex = Board.get(Xloc).get(Yloc);
         HexSpace DestinationHex = Board.get(Xdest).get(Ydest);
-        HexSpace Side1 = Board.get(Xdest).get(Ydest-1);
-        HexSpace Side2 = Board.get(Xdest+1).get(Ydest-1);
-        HexSpace Side3 = Board.get(Xdest-1).get(Ydest);
-        HexSpace Side4 = Board.get(Xdest+1).get(Ydest);
-        HexSpace Side5 = Board.get(Xdest).get(Ydest+1);
-        HexSpace Side6 = Board.get(Xdest+1).get(Ydest+1);
+        HexSpace Side1 = Board.get(Xdest).get(Ydest-2);
+        HexSpace Side2 = Board.get(Xdest).get(Ydest-1);
+        HexSpace Side3 = Board.get(Xdest).get(Ydest+1);
+        HexSpace Side4 = Board.get(Xdest).get(Ydest+2);
+        HexSpace Side5 = Board.get(Xdest-1).get(Ydest+1);
+        HexSpace Side6 = Board.get(Xdest-1).get(Ydest-1);
         if(DestinationHex.getHex()==null &&
                 ((SelectedHex.getColor()== Hex.Color.WHITE && playerId==0)||
                 (SelectedHex.getColor()== Hex.Color.BLACK && playerId==1))&&
@@ -234,6 +239,10 @@ public class HGameState extends GameState implements View.OnClickListener {
 
     public int getActivePlayer() {
         return activePlayer;
+    }
+
+    public int getTurnNumber() {
+        return turnNumber;
     }
 
     @Override

@@ -60,7 +60,7 @@ public class HLocalGame extends LocalGame {
 
             // if it is this player's turn, indicate an illegal move
             if (!canMove(playerId)) return false;
-            Logger.log("makemove","making place action");
+            Logger.log("makemove","making place action "+X+", " +Y);
             return state.placePiece(X,Y,name,playerId);
 
 

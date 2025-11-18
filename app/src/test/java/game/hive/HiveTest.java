@@ -5,6 +5,11 @@ import static junit.framework.TestCase.assertNotNull;
 import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 
+import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +32,11 @@ public class HiveTest {
     // moving a piece from (row,col) to (diffRow,diffCol) for the correct player
     // should pass and turn
     @Test
+    public void testFirstPieceForcedToCenter() {
+        HGameState state = new HGameState();
+
+        boolean result = state.placePiece(0, 0, "Ant", state.getActivePlayer());
+        assertTrue(result);
     public void movePiece_validMoveMovesPieceAndFlipsTurn() {
         HGameState state = new HGameState();
 
@@ -77,4 +87,11 @@ public class HiveTest {
                 origCenter.getHex());
     }
 
+        HexSpace hex = state.getBoard().get(15).get(15);
+        assertNotNull(hex.getHex());
+        assertEquals("Ant", hex.getHex().getName());
+
+        // Check the board did NOT place at the passed location
+        assertNull(state.getBoard().get(0).get(0).getHex());
+    }
 }
