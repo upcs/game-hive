@@ -107,6 +107,7 @@ public class HGameState extends GameState implements View.OnClickListener {
             return false;
         }
         boolean valid = false;
+
         if(turnNumber == 1){
             valid = true;
             X = 7;
@@ -210,6 +211,7 @@ public class HGameState extends GameState implements View.OnClickListener {
             return false;
         }
         boolean valid = false;
+
         HexSpace SelectedHex = Board.get(Xloc).get(Yloc);
         HexSpace DestinationHex = Board.get(Xdest).get(Ydest);
         HexSpace Side1 = Board.get(Xdest).get(Ydest-2);

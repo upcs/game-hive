@@ -100,27 +100,138 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
         // ignore if not an "up" event
         if (event.getAction() != MotionEvent.ACTION_UP) return true;
 
+
         // finds what is selected
         if(v.getId()==R.id.WhiteBeetle){
+            IsWhiteBeetleSelected = false;
+            IsBlackBeetleSelected = false;
+            IsWhiteGrasshopperSelected = false;
+            IsBlackGrasshopperSelected = false;
+            IsWhiteBeeSelected = false;
+            IsBlackBeeSelected = false;
+            IsWhiteAntSelected = false;
+            IsBlackAntSelected = false;
+            IsWhiteSpiderSelected = false;
+            IsBlackSpiderSelected = false;
+            IsHexSelected = false;
             IsWhiteBeetleSelected = true;
         } else if(v.getId()==R.id.BlackBeetle){
+            IsWhiteBeetleSelected = false;
+            IsBlackBeetleSelected = false;
+            IsWhiteGrasshopperSelected = false;
+            IsBlackGrasshopperSelected = false;
+            IsWhiteBeeSelected = false;
+            IsBlackBeeSelected = false;
+            IsWhiteAntSelected = false;
+            IsBlackAntSelected = false;
+            IsWhiteSpiderSelected = false;
+            IsBlackSpiderSelected = false;
+            IsHexSelected = false;
             IsBlackBeetleSelected = true;
         } else if(v.getId()==R.id.WhiteGrasshopper){
+            IsWhiteBeetleSelected = false;
+            IsBlackBeetleSelected = false;
+            IsWhiteGrasshopperSelected = false;
+            IsBlackGrasshopperSelected = false;
+            IsWhiteBeeSelected = false;
+            IsBlackBeeSelected = false;
+            IsWhiteAntSelected = false;
+            IsBlackAntSelected = false;
+            IsWhiteSpiderSelected = false;
+            IsBlackSpiderSelected = false;
+            IsHexSelected = false;
             IsWhiteGrasshopperSelected = true;
             Logger.log("onTouch()","WhiteGrasshopperselected");
         } else if(v.getId()==R.id.BlackGrasshopper){
+            IsWhiteBeetleSelected = false;
+            IsBlackBeetleSelected = false;
+            IsWhiteGrasshopperSelected = false;
+            IsBlackGrasshopperSelected = false;
+            IsWhiteBeeSelected = false;
+            IsBlackBeeSelected = false;
+            IsWhiteAntSelected = false;
+            IsBlackAntSelected = false;
+            IsWhiteSpiderSelected = false;
+            IsBlackSpiderSelected = false;
+            IsHexSelected = false;
             IsBlackGrasshopperSelected = true;
         } else if(v.getId()==R.id.WhiteBee){
+            IsWhiteBeetleSelected = false;
+            IsBlackBeetleSelected = false;
+            IsWhiteGrasshopperSelected = false;
+            IsBlackGrasshopperSelected = false;
+            IsWhiteBeeSelected = false;
+            IsBlackBeeSelected = false;
+            IsWhiteAntSelected = false;
+            IsBlackAntSelected = false;
+            IsWhiteSpiderSelected = false;
+            IsBlackSpiderSelected = false;
+            IsHexSelected = false;
             IsWhiteBeeSelected = true;
         } else if(v.getId()==R.id.BlackBee){
+            IsWhiteBeetleSelected = false;
+            IsBlackBeetleSelected = false;
+            IsWhiteGrasshopperSelected = false;
+            IsBlackGrasshopperSelected = false;
+            IsWhiteBeeSelected = false;
+            IsBlackBeeSelected = false;
+            IsWhiteAntSelected = false;
+            IsBlackAntSelected = false;
+            IsWhiteSpiderSelected = false;
+            IsBlackSpiderSelected = false;
+            IsHexSelected = false;
             IsBlackBeeSelected = true;
         } else if(v.getId()==R.id.WhiteAnt){
+            IsWhiteBeetleSelected = false;
+            IsBlackBeetleSelected = false;
+            IsWhiteGrasshopperSelected = false;
+            IsBlackGrasshopperSelected = false;
+            IsWhiteBeeSelected = false;
+            IsBlackBeeSelected = false;
+            IsWhiteAntSelected = false;
+            IsBlackAntSelected = false;
+            IsWhiteSpiderSelected = false;
+            IsBlackSpiderSelected = false;
+            IsHexSelected = false;
             IsWhiteAntSelected = true;
         } else if(v.getId()==R.id.BlackAnt){
+            IsWhiteBeetleSelected = false;
+            IsBlackBeetleSelected = false;
+            IsWhiteGrasshopperSelected = false;
+            IsBlackGrasshopperSelected = false;
+            IsWhiteBeeSelected = false;
+            IsBlackBeeSelected = false;
+            IsWhiteAntSelected = false;
+            IsBlackAntSelected = false;
+            IsWhiteSpiderSelected = false;
+            IsBlackSpiderSelected = false;
+            IsHexSelected = false;
             IsBlackAntSelected = true;
         } else if(v.getId()==R.id.WhiteSpider){
+            IsWhiteBeetleSelected = false;
+            IsBlackBeetleSelected = false;
+            IsWhiteGrasshopperSelected = false;
+            IsBlackGrasshopperSelected = false;
+            IsWhiteBeeSelected = false;
+            IsBlackBeeSelected = false;
+            IsWhiteAntSelected = false;
+            IsBlackAntSelected = false;
+            IsWhiteSpiderSelected = false;
+            IsBlackSpiderSelected = false;
+            IsHexSelected = false;
             IsWhiteSpiderSelected = true;
         } else if(v.getId()==R.id.BlackSpider){
+            IsWhiteBeetleSelected = false;
+            IsBlackBeetleSelected = false;
+            IsWhiteGrasshopperSelected = false;
+            IsBlackGrasshopperSelected = false;
+            IsWhiteBeeSelected = false;
+            IsBlackBeeSelected = false;
+            IsWhiteAntSelected = false;
+            IsBlackAntSelected = false;
+            IsWhiteSpiderSelected = false;
+            IsBlackSpiderSelected = false;
+            IsHexSelected = false;
             IsBlackSpiderSelected = true;
         } else if (v.getId()==R.id.surfaceView) {
 
@@ -160,7 +271,6 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
             else if(IsWhiteGrasshopperSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"GrassHopper");
                 Logger.log("onTouch", "Human player sending Place White GrassHopper...");
                 game.sendAction(action);
                 surfaceView.invalidate();
@@ -168,7 +278,6 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
             else if(IsBlackGrasshopperSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"GrassHopper");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
@@ -176,7 +285,6 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
             else if(IsWhiteBeeSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Bee");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
@@ -184,7 +292,6 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
             else if(IsBlackBeeSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Bee");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
