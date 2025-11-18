@@ -37,7 +37,8 @@ public class HiveTest {
 
         boolean result = state.placePiece(0, 0, "Ant", state.getActivePlayer());
         assertTrue(result);
-    public void movePiece_validMoveMovesPieceAndFlipsTurn() {
+
+        public void movePiece_validMoveMovesPieceAndFlipsTurn() {
         HGameState state = new HGameState();
 
         // First place a piece for player 1 at the center

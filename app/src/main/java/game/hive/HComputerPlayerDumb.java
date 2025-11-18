@@ -37,7 +37,7 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
             ArrayList<Hex> hand = state.getBlackHand();
 
             if(hand.size()>0) {
-                int rndNum = (int) Math.random() * (hand.size()-1);
+                int rndNum = (int) Math.random() * (hand.size());
                 String rndPiece = hand.get(rndNum).getName() ;
 
                 //TODO: pick valid location
@@ -53,6 +53,7 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
                 // make array list of hexes
                 ArrayList< Pair<Hex, Pair<Integer,Integer> > > comPiece = new ArrayList<>();
                 ArrayList<ArrayList<HexSpace>> board = state.getBoard();
+
                 for (int r = 0; r < board.size(); r++) {
                     for (int c = 0; c < board.size(); c++) {
                         if (board.get(r).get(c).getHex() != null) {
@@ -63,20 +64,46 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
                             }
                         }
                     }
-                    //rnd pick the array again
-                    int rndNum = (int) Math.random() * (comPiece.size()-1);
-                    String selRndPiece = comPiece.get(rndNum);
-
-                    HMoveAction actionMove =  new HMoveAction(this,LastX, LastY, p.x, p.y);
-                    game.sendAction(actionMove);
-
-                    // rndmly pick location that valid
-                    //
-
-
-
 
                 }//done
+
+                // nothing to move
+                if (comPiece.size() == 0) {
+                    Logger.log("computer", "no black pieces to move");
+                    return;
+                }
+
+                //rnd pick the array again
+                int rndNum = (int) Math.random() * (comPiece.size());
+                Pair<Hex, Pair<Integer,Integer>> selRndPiece = comPiece.get(rndNum);
+
+                Hex pieceToMove = selRndPiece.getFirst();
+                int fromX = selRndPiece.getSecond().getFirst();
+                int fromY = selRndPiece.getSecond().getSecond();
+
+                Logger.log("computer",
+                        "selected piece " + pieceToMove.getName() +
+                                " at (" + fromX + "," + fromY + ")");
+
+                //TODO: RANDOM SPACE ON BOARD( CHANGE TO VALID)
+                int maxR = board.size();
+                int maxC = board.get(0).size();
+
+                int toX = (int)(Math.random() * maxR);
+                int toY = (int)(Math.random() * maxC);
+
+                Logger.log("computer",
+                        "random destination chosen (" + toX + "," + toY + ")");
+
+                HMoveAction actionMove = new HMoveAction(this, fromX, fromY, toX, toY);
+
+                Logger.log("computer", "computer player sending move from (" +
+                        fromX + "," + fromY + ") to (" + toX + "," + toY + ")");
+
+                game.sendAction(actionMove);
+
+                // rndmly pick location that valid
+                //
 
 
 
