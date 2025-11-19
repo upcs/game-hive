@@ -95,7 +95,7 @@ public class HGameState extends GameState implements View.OnClickListener {
         }
     }
 
-    public boolean placePiece(int X, int Y, String name, int playerId) {
+    /*public boolean placePiece(int X, int Y, String name, int playerId) {
         // if we're out of bounds or anything, return;
         if (Board == null || X < 0 || Y < 0) return false;
         //if (X >= Board.length || Y >= Board[X].length) return;
@@ -199,8 +199,220 @@ public class HGameState extends GameState implements View.OnClickListener {
 
 
         return false; //did not make a move
+    }*/
+
+    public boolean isValidPlacement(int X, int Y, String name, int playerId) {
+        // board must exist and coordinates must be in range
+        if (Board == null || !isInBounds(X, Y)) {
+            return false;
+        }
+
+        // must be this player's turn
+        if (playerId != activePlayer) {
+            return false;
+        }
+
+        HexSpace selected = getHexSpace(X, Y);
+        if (selected == null) {
+            return false;
+        }
+
+        // hex must be empty
+        if (selected.getHex() != null) {
+            return false;
+        }
+
+        // first turn: center placement always
+        if (turnNumber == 1) {
+            return true;
+        }
+
+        // neighbor spaces
+        HexSpace side1 = getHexSpace(X - 2, Y);
+        HexSpace side2 = getHexSpace(X - 1, Y);
+        HexSpace side3 = getHexSpace(X + 1, Y);
+        HexSpace side4 = getHexSpace(X + 2, Y);
+        HexSpace side5 = getHexSpace(X + 1, Y - 1);
+        HexSpace side6 = getHexSpace(X - 1, Y - 1);
+
+        // Player color determination
+        Hex.Color myColor;
+        Hex.Color oppColor;
+
+        if (activePlayer == 0) {
+            // player 0 = White
+            myColor  = Hex.Color.WHITE;
+            oppColor = Hex.Color.BLACK;
+        }
+        else {
+            // player 1 = Black
+            myColor  = Hex.Color.BLACK;
+            oppColor = Hex.Color.WHITE;
+        }
+
+        // turn 2: must be next to at least one opponent piece
+        if (turnNumber == 2) {
+            boolean touchesOpponent =
+                    hasColor(side1, oppColor) ||
+                            hasColor(side2, oppColor) ||
+                            hasColor(side3, oppColor) ||
+                            hasColor(side4, oppColor) ||
+                            hasColor(side5, oppColor) ||
+                            hasColor(side6, oppColor);
+
+            return touchesOpponent;
+        }
+
+        // later turns: must be next to at least one of own pieces
+        boolean touchesOwn =
+                hasColor(side1, myColor) ||
+                        hasColor(side2, myColor) ||
+                        hasColor(side3, myColor) ||
+                        hasColor(side4, myColor) ||
+                        hasColor(side5, myColor) ||
+                        hasColor(side6, myColor);
+
+        return touchesOwn;
     }
-    public boolean movePiece(int Xloc, int Yloc, int Xdest, int Ydest, int playerId){
+
+    //place piece at (X, Y) if isValidPlacement
+    //advance turn is in here
+    public boolean placePiece(int X, int Y, String name, int playerId) {
+        //first turn, force the piece to be placed at (7,7)
+        if (turnNumber == 1) {
+            X = 7;
+            Y = 7;
+        }
+
+        // check for valid placement
+        if (!isValidPlacement(X, Y, name, playerId)) {
+            return false; // illegal placement, do nothing
+        }
+
+        // should never be null
+        // extra check to avoid crash
+        HexSpace selected = getHexSpace(X, Y);
+        if (selected == null) {
+            return false; // safety check; should not happen if isValidPlacement worked
+        }
+
+        // Decide the color based on activePlayer
+        // 0 = WHITE, 1 = BLACK
+        Hex.Color color = (activePlayer == 0) ? Hex.Color.WHITE : Hex.Color.BLACK;
+
+        // Actually place the piece on the board
+        selected.setHex(new Hex(color, name));
+        Logger.log("place piece",
+                "placed " + (color == Hex.Color.WHITE ? "white" : "black")
+                        + " piece '" + name + "' at (" + X + ", " + Y + ")");
+
+        // TODO: remove this piece (piece being placed)from the player's hand
+        // (WhitesHand / BlacksHand) want hands to shrink
+
+        // advance game state
+        turnNumber++;
+        activePlayer = 1 - activePlayer; // alternate players
+
+        return true; // successfully placed
+    }
+
+    public boolean isValidMove(int Xloc, int Yloc, int Xdest, int Ydest, int playerId) {
+
+        // board must exist
+        if (Board == null) {
+            return false;
+        }
+
+        // both curr dest and new destination must be on the board
+        if (!isInBounds(Xloc, Yloc) || !isInBounds(Xdest, Ydest)) {
+            return false;
+        }
+
+        // must be this player's turn
+        if (playerId != activePlayer) {
+            return false;
+        }
+
+        HexSpace from = getHexSpace(Xloc, Yloc);
+        HexSpace to   = getHexSpace(Xdest, Ydest);
+
+        // if somehow null, move is invalid
+        if (from == null || to == null) {
+            return false;
+        }
+
+        // there must be a piece to move
+        if (from.getHex() == null) {
+            return false;
+        }
+
+        // piece must belong to this player
+        Hex.Color myColor;
+        if (playerId == 0) {
+            // player 0 = White
+            myColor = Hex.Color.WHITE;
+        } else {
+            // player 1 = Black
+            myColor = Hex.Color.BLACK;
+        }
+
+        if (from.getColor() != myColor) {
+            return false;
+        }
+
+        // destination must be empty
+        if (to.getHex() != null) {
+            return false;
+        }
+
+        // neighbor spaces around the DESTINATION hex
+        HexSpace side1 = getHexSpace(Xdest,     Ydest - 2);
+        HexSpace side2 = getHexSpace(Xdest,     Ydest - 1);
+        HexSpace side3 = getHexSpace(Xdest,     Ydest + 1);
+        HexSpace side4 = getHexSpace(Xdest,     Ydest + 2);
+        HexSpace side5 = getHexSpace(Xdest - 1, Ydest + 1);
+        HexSpace side6 = getHexSpace(Xdest - 1, Ydest - 1);
+
+        //TODO: Add piece specific movement
+        // For now ... require that the destination touches at least one piece (any color)
+        boolean hasNeighbor =
+                hasAPiece(side1) ||
+                        hasAPiece(side2) ||
+                        hasAPiece(side3) ||
+                        hasAPiece(side4) ||
+                        hasAPiece(side5) ||
+                        hasAPiece(side6);
+
+        if (!hasNeighbor) {
+            return false;
+        }
+
+        return true;
+    }
+    public boolean movePiece(int Xloc, int Yloc, int Xdest, int Ydest, int playerId) {
+        // check valid move
+        if (!isValidMove(Xloc, Yloc, Xdest, Ydest, playerId)) {
+            return false;
+        }
+
+        HexSpace from = getHexSpace(Xloc, Yloc);
+        HexSpace to   = getHexSpace(Xdest, Ydest);
+
+        if (from == null || to == null) {
+            return false; // safety check
+        }
+
+        // move the piece from curr to new destination
+        to.setHex(from.getHex());
+        from.setHex(null);
+
+        // switch to the other player's turn
+        activePlayer = 1 - activePlayer;
+
+        return true;
+    }
+
+    /*public boolean movePiece(int Xloc, int Yloc, int Xdest, int Ydest, int playerId){
         // if we're out of bounds or anything, return;
         if (Board == null || Xloc < 0 || Yloc < 0 || Xdest < 0 || Ydest < 0) return false;
         //if (X >= Board.length || Y >= Board[X].length) return;
@@ -235,7 +447,7 @@ public class HGameState extends GameState implements View.OnClickListener {
             return true;
         }
         return false;
-    }
+    }*/
 
     public ArrayList<ArrayList<HexSpace>> getBoard() {
         return Board;
@@ -265,5 +477,32 @@ public class HGameState extends GameState implements View.OnClickListener {
     }
 
     public ArrayList<Hex> getBlackHand() {return BlacksHand;}
+
+
+    private boolean isInBounds(int x, int y) {
+
+        // Board.get(x) gets a row (ArrayList<HexSpace>)
+        // Board.get(x).get(y) gets single HexSpace
+        return x >= 0 && x < Board.size() && y >= 0 && y < Board.get(x).size();
+    }
+
+    private HexSpace getHexSpace(int x, int y) {
+        if (!isInBounds(x, y)) {
+            return null;
+        }
+
+        return Board.get(x).get(y);
+    }
+
+    private boolean hasColor(HexSpace space, Hex.Color color) {
+
+        if (space == null) return false;  // checks for off board or invalid
+        if (space.getHex() == null) return false; // ignore empty space
+        return space.getColor() == color;  // return true if color match
+    }
+
+    private boolean hasAPiece(HexSpace space) {
+        return (space != null && space.getHex() != null); // return if space not empty & if space is valid
+    }
 
 }
