@@ -40,11 +40,13 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
             if(hand.size()>0) {
                 Random rand = new Random();
                 int rndNum = rand.nextInt(hand.size());
+                int randX = 2+ rand.nextInt(25); //state.getBoard().size()
+                int randY = 2+ rand.nextInt(15);
                 String rndPiece = hand.get(rndNum).getName() ;
 
                 //TODO: pick valid location
-
-                HPlaceAction action =  new HPlaceAction(this,6,6,rndPiece);
+                //decrease handsize
+                HPlaceAction action =  new HPlaceAction(this,randX,randY,rndPiece);
                 Logger.log("computer", "computer player sending place "+rndPiece);
                 game.sendAction(action);
 
@@ -58,7 +60,7 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
                 ArrayList<ArrayList<HexSpace>> board = state.getBoard();
 
                 for (int r = 0; r < board.size(); r++) {
-                    for (int c = 0; c < board.size(); c++) {
+                    for (int c = 0; c < board.get(r).size(); c++) {
                         if (board.get(r).get(c).getHex() != null) {
                             //if my piece add to list
                             if(board.get(r).get(c).getHex().getColor() == Hex.Color.BLACK)
@@ -77,7 +79,10 @@ public class HComputerPlayerDumb extends GameComputerPlayer {
                 }
 
                 //rnd pick the array again
-                int rndNum = (int) Math.random() * (comPiece.size());
+                Random rand = new Random();
+                int rndNum = rand.nextInt(comPiece.size());
+
+
                 Pair<Hex, Pair<Integer,Integer>> selRndPiece = comPiece.get(rndNum);
 
                 Hex pieceToMove = selRndPiece.getFirst();
