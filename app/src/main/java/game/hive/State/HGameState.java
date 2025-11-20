@@ -8,8 +8,8 @@ import game.hive.GameFramework.infoMessage.GameState;
 import game.hive.GameFramework.utilities.Logger;
 
 public class HGameState extends GameState implements View.OnClickListener {
-    int activePlayer; //0 for White player, 1 for Black Player
-    boolean[] isBeePlaced = new boolean[2];//move new to constructor
+    int activePlayer; // 0 for White player, 1 for Black Player
+    boolean[] isBeePlaced = new boolean[2]; // move new to constructor
     int turnNumber;
     ArrayList<Hex> WhitesHand;
     ArrayList<Hex> BlacksHand;
@@ -30,7 +30,6 @@ public class HGameState extends GameState implements View.OnClickListener {
                 Board.get(i).add(new HexSpace());
             }
         }
-
     }
 
     private void initializeHands() {
@@ -63,23 +62,18 @@ public class HGameState extends GameState implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-
         HGameState FirstInstance = new HGameState();
         FirstInstance.toString();
-
-
     }
 
-    //deep copy constructor
+    // deep copy constructor
     public HGameState(HGameState orig) {
         this.activePlayer = orig.activePlayer;
         this.isBeePlaced = new boolean[2];
         this.isBeePlaced[0] = orig.isBeePlaced[0];
         this.isBeePlaced[1] = orig.isBeePlaced[1];
         this.turnNumber = orig.turnNumber;
-        //this.WhitesHand = orig.WhitesHand;
-        //this.BlacksHand = orig.BlacksHand;
-        //this.Board = orig.Board;
+
         WhitesHand = new ArrayList<>();
         for (Hex hex : orig.WhitesHand) {
             WhitesHand.add(new Hex(hex));
@@ -90,7 +84,6 @@ public class HGameState extends GameState implements View.OnClickListener {
         }
 
         Board = new ArrayList<ArrayList<HexSpace>>();
-
         for (int i = 0; i < orig.Board.size(); i++) {
             ArrayList<HexSpace> newRow = new ArrayList<HexSpace>();
             ArrayList<HexSpace> oldRow = orig.Board.get(i);
@@ -100,10 +93,8 @@ public class HGameState extends GameState implements View.OnClickListener {
                 HexSpace newSpace = new HexSpace(oldSpace);
                 newRow.add(newSpace);
             }
-
             Board.add(newRow);
         }
-
     }
 
     public boolean isValidPlacement(int X, int Y, String name, int playerId) {
@@ -138,7 +129,18 @@ public class HGameState extends GameState implements View.OnClickListener {
             return true;
         }
 
-        // neighbor spaces around (X, Y)
+        // SPECIAL CASE: turn 2
+        // only requirement: must be next to the very first piece at (7,7)
+        if (turnNumber == 2) {
+            boolean nextToFirst = isAdjacentToFirstPiece(X, Y);
+            if (!nextToFirst) {
+                return false;
+            }
+            // we already checked in-bounds and that the hex is empty above
+            return true;
+        }
+
+        // from here on, use normal neighbor rules
         HexSpace[] neighbors = getNeighbors(X, Y);
 
         // Player color determination
@@ -146,28 +148,21 @@ public class HGameState extends GameState implements View.OnClickListener {
         Hex.Color oppColor;
 
         if (activePlayer == 0) {
-            // player 0 = White
             myColor = Hex.Color.WHITE;
             oppColor = Hex.Color.BLACK;
         } else {
-            // player 1 = Black
             myColor = Hex.Color.BLACK;
             oppColor = Hex.Color.WHITE;
-        }
-
-        // turn 2: must be next to at least one opponent piece
-        if (turnNumber == 2) {
-            return anyNeighborHasColor(neighbors, oppColor);
         }
 
         // later turns: must be next to at least one of own pieces
         return anyNeighborHasColor(neighbors, myColor);
     }
 
-    //place piece at (X, Y) if isValidPlacement
-    //advance turn is in here
+    // place piece at (X, Y) if isValidPlacement
+    // advance turn is in here
     public boolean placePiece(int X, int Y, String name, int playerId) {
-        //first turn, force the piece to be placed at (7,7)
+        // first turn, force the piece to be placed at (7,7)
         if (turnNumber == 1) {
             X = 7;
             Y = 7;
@@ -178,7 +173,6 @@ public class HGameState extends GameState implements View.OnClickListener {
             return false; // illegal placement, do nothing
         }
 
-        // should never be null
         // extra check to avoid crash
         HexSpace selected = getHexSpace(X, Y);
         if (selected == null) {
@@ -191,9 +185,11 @@ public class HGameState extends GameState implements View.OnClickListener {
 
         // Actually place the piece on the board
         selected.setHex(new Hex(color, name));
-        Logger.log("place piece",
+        Logger.log(
+                "place piece",
                 "placed " + (color == Hex.Color.WHITE ? "white" : "black")
-                        + " piece '" + name + "' at (" + X + ", " + Y + ")");
+                        + " piece '" + name + "' at (" + X + ", " + Y + ")"
+        );
 
         // if queen just placed for this player... remember queen placed
         if ("QueenBee".equals(name)) {
@@ -267,6 +263,7 @@ public class HGameState extends GameState implements View.OnClickListener {
         if (!anyNeighborHasPiece(neighbors)) {
             return false;
         }
+
         // piece-specific movement
         Hex movingPiece = from.getHex();
         String pieceName = movingPiece.getName();
@@ -303,12 +300,11 @@ public class HGameState extends GameState implements View.OnClickListener {
             movementOK = false;
         }
 
-        if (movementOK == false) {
+        if (!movementOK) {
             return false;
         }
 
         return true;
-
     }
 
     public boolean movePiece(int Xloc, int Yloc, int Xdest, int Ydest, int playerId) {
@@ -370,7 +366,6 @@ public class HGameState extends GameState implements View.OnClickListener {
     }
 
     private boolean isInBounds(int x, int y) {
-
         // Board.get(x) gets a row (ArrayList<HexSpace>)
         // Board.get(x).get(y) gets single HexSpace
         return x >= 0 && x < Board.size() && y >= 0 && y < Board.get(x).size();
@@ -380,12 +375,10 @@ public class HGameState extends GameState implements View.OnClickListener {
         if (!isInBounds(x, y)) {
             return null;
         }
-
         return Board.get(x).get(y);
     }
 
     private boolean hasColor(HexSpace space, Hex.Color color) {
-
         if (space == null) return false;  // checks for off board or invalid
         if (space.getHex() == null) return false; // ignore empty space
         return space.getColor() == color;  // return true if color match
@@ -411,26 +404,43 @@ public class HGameState extends GameState implements View.OnClickListener {
         for (int i = 0; i < hand.size(); i++) {
 
             // if we already removed a piece, don't remove more
-            if (removedOne == true) {
+            if (removedOne) {
+                continue;
+            }
 
-            } else {
-                Hex h = hand.get(i);
+            Hex h = hand.get(i);
 
-                // make sure not null
-                if (h != null) {
+            // make sure not null
+            if (h != null) {
 
-                    // check name matches
-                    if (h.getName().equals(name)) {
-                        hand.remove(i);
-                        removedOne = true; // mark that we removed one
-                    }
+                // check name matches
+                if (h.getName().equals(name)) {
+                    hand.remove(i);
+                    removedOne = true; // mark that we removed one
                 }
             }
         }
     }
 
+    // ===== helpers for neighbor checks =====
 
-    // helpers for neighbor checks
+    // true if (X, Y) is directly next to the very first piece at (7,7)
+    private boolean isAdjacentToFirstPiece(int X, int Y) {
+        int dx = X - 7;
+        int dy = Y - 7;
+
+        // can't be on top of the first piece itself
+        if (dx == 0 && dy == 0) {
+            return false;
+        }
+
+        // neighbor if both dx and dy are in [-1, 1]
+        if (dx >= -1 && dx <= 1 && dy >= -1 && dy <= 1) {
+            return true;
+        }
+
+        return false;
+    }
 
     // returns true if ANY neighbor has a piece of the given color
     private boolean anyNeighborHasColor(HexSpace[] neighbors, Hex.Color color) {
@@ -462,105 +472,67 @@ public class HGameState extends GameState implements View.OnClickListener {
         return true;
     }
 
-
     // return the 6 neighboring hexes around (x, y)
-    // if a neighbor is off-board, getHexSpace will return null
     private HexSpace[] getNeighbors(int x, int y) {
         return new HexSpace[]{
-                getHexSpace(x, y - 2), // left 2
-                getHexSpace(x, y - 1), // left 1
-                getHexSpace(x, y + 1), // right 1
-                getHexSpace(x, y + 2), // right 2
-                getHexSpace(x - 1, y + 1), // upper-right / lower-right depending on layout
-                getHexSpace(x - 1, y - 1)  // upper-left / lower-left
+                getHexSpace(x, y - 1),   // left
+                getHexSpace(x, y + 1),   // right
+                getHexSpace(x - 1, y),   // up
+                getHexSpace(x + 1, y),   // down
+                getHexSpace(x - 1, y + 1), // up-right
+                getHexSpace(x + 1, y - 1)  // down-left
         };
     }
 
-    // return true if (Xdest, Ydest) is one of the 6 neighbors of (Xloc, Yloc)
+    // true if (Xdest, Ydest) is one of the 6 neighbors of (Xloc, Yloc)
     private boolean isNeighbor(int Xloc, int Yloc, int Xdest, int Ydest) {
         int dx = Xdest - Xloc;
         int dy = Ydest - Yloc;
 
         boolean neighbor = false;
 
-        // same row, move left/right by 1 or 2
-        if (dx == 0) {
-            if (dy == -2 || dy == -1 || dy == 1 || dy == 2) {
-                neighbor = true;
-            }
+        // left / right
+        if (dx == 0 && (dy == -1 || dy == 1)) {
+            neighbor = true;
         }
 
-        // row above or below, diagonal
-        if (dx == -1 || dx == 1) {
-            if (dy == -1 || dy == 1) {
-                neighbor = true;
-            }
+        // up / down
+        if ((dx == -1 || dx == 1) && dy == 0) {
+            neighbor = true;
+        }
+
+        // diagonals (up-right, down-left)
+        if (dx == -1 && dy == 1) {
+            neighbor = true;
+        }
+        if (dx == 1 && dy == -1) {
+            neighbor = true;
         }
 
         return neighbor;
     }
 
-    //TODO:
-    // movement helpers for each bug
-    // right now: all just "one neighbor step"
-    // can swap the inside of these later for full hive rules
+    // ===== movement helpers (currently 1-step like Queen) =====
 
-    // Queen moves one space to any neighboring hex
     private boolean canQueenMove(int Xloc, int Yloc, int Xdest, int Ydest) {
-        boolean ok = false;
-
-        if (isNeighbor(Xloc, Yloc, Xdest, Ydest) == true) {
-            ok = true;
-        }
-
-        return ok;
+        return isNeighbor(Xloc, Yloc, Xdest, Ydest);
     }
 
-    // For now, Ant moves like Queen (hive: can slide around the hive many spaces)
     private boolean canAntMove(int Xloc, int Yloc, int Xdest, int Ydest) {
-        boolean ok = false;
-
-        if (isNeighbor(Xloc, Yloc, Xdest, Ydest) == true) {
-            ok = true;
-        }
-
-        return ok;
+        return isNeighbor(Xloc, Yloc, Xdest, Ydest);
     }
 
-    // For now, Spider moves like Queen (hive: exactly 3 steps)
     private boolean canSpiderMove(int Xloc, int Yloc, int Xdest, int Ydest) {
-        boolean ok = false;
-
-        if (isNeighbor(Xloc, Yloc, Xdest, Ydest) == true) {
-            ok = true;
-        }
-
-        return ok;
+        return isNeighbor(Xloc, Yloc, Xdest, Ydest);
     }
 
-    // For now, Beetle moves like Queen (Hive: can climb on top)
     private boolean canBeetleMove(int Xloc, int Yloc, int Xdest, int Ydest) {
-        boolean ok = false;
-
-        if (isNeighbor(Xloc, Yloc, Xdest, Ydest) == true) {
-            ok = true;
-        }
-
-        return ok;
+        return isNeighbor(Xloc, Yloc, Xdest, Ydest);
     }
 
-    // For now, Grasshopper also moves like Queen
-    // hive: jump in straight line over at least one piece
     private boolean canGrasshopperMove(int Xloc, int Yloc, int Xdest, int Ydest) {
-        boolean ok = false;
-
-        if (isNeighbor(Xloc, Yloc, Xdest, Ydest) == true) {
-            ok = true;
-        }
-
-        return ok;
+        return isNeighbor(Xloc, Yloc, Xdest, Ydest);
     }
-
 
     // find the queen on the board
     // return coord {x, y} or null if not found
@@ -591,7 +563,6 @@ public class HGameState extends GameState implements View.OnClickListener {
         return null;
     }
 
-
     // check if queen is completely surrounded
     // return true if all 6 surrounding hexes have pieces
     private boolean isQueenSurrounded(Hex.Color color) {
@@ -612,23 +583,19 @@ public class HGameState extends GameState implements View.OnClickListener {
         return allNeighborsHavePiece(neighbors);
     }
 
-    //return -1, no winner yet; 0, white wins; 1, black wins 2
+    // return -1, no winner yet; 0, white wins; 1, black wins
     public int checkWinner() {
-        // is each queen surrounded?
         boolean whiteSurrounded = isQueenSurrounded(Hex.Color.WHITE);
         boolean blackSurrounded = isQueenSurrounded(Hex.Color.BLACK);
 
         if (!whiteSurrounded && !blackSurrounded) {
-            // game still going
-            return -1;
+            return -1; // game still going
         } else if (whiteSurrounded && !blackSurrounded) {
-            // white queen is dead, black wins
-            return 1;
+            return 1;  // white queen is dead, black wins
         } else if (!whiteSurrounded && blackSurrounded) {
-            // black queen is dead, white wins
-            return 0;
-        } else return -1;
-
+            return 0;  // black queen is dead, white wins
+        } else {
+            return -1;
+        }
     }
-
 }
