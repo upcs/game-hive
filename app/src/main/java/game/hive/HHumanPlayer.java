@@ -7,6 +7,8 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.Arrays;
+
 import game.hive.GameFramework.GameMainActivity;
 import game.hive.GameFramework.infoMessage.GameInfo;
 import game.hive.GameFramework.players.GameHumanPlayer;
@@ -32,6 +34,8 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
     private int LastX;
     private int LastY;
     private boolean IsHexSelected = false;
+    private ImageView[] whiteHand;
+    private ImageView[] blackHand;
 
     public HHumanPlayer(String name, int layoutId) {
         super(name);
@@ -94,11 +98,70 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
         BlackSpider.setImageResource(R.drawable.blkspider);
         //WhiteBeetle.invalidate();
 
+        whiteHand = new ImageView[] {WhiteBeetle, WhiteGrasshopper, WhiteBee, WhiteAnt, WhiteSpider};
+        blackHand = new ImageView[] {BlackBeetle, BlackGrasshopper, BlackBee, BlackAnt, BlackSpider};
+
+        for( ImageView hand : whiteHand){
+            hand.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    highlightOnly((ImageView) view);
+                }
+            });
+        }
+
+        for( ImageView hand : blackHand){
+            hand.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    highlightOnly((ImageView) view);
+                }
+            });
+        }
+
+        for (ImageView wHand : whiteHand) {
+            wHand.setOnClickListener(view -> highlightOnly((ImageView) view));
+        }
+
+        for (ImageView bHand : blackHand) {
+            bHand.setOnClickListener(view -> highlightOnly((ImageView) view));
+        }
+        surfaceView.setOnTouchListener(this);
+
+    }
+    private void highlightOnly(ImageView selected) {
+        boolean isWhiteHand = Arrays.asList(whiteHand).contains(selected);
+        if (isWhiteHand) {
+            for (ImageView hand : whiteHand) {
+                if (hand == selected) {
+                    hand.setBackgroundResource(R.drawable.highlight_border);
+                } else {
+                    hand.setBackground(null);
+                }
+            }
+            for (ImageView blkHand : blackHand) {
+                blkHand.setBackground(null);
+            }
+        } else {
+
+            for (ImageView blkHand : blackHand) {
+                if (blkHand == selected) {
+                    blkHand.setBackgroundResource(R.drawable.highlight_border);
+                } else {
+                    blkHand.setBackground(null);
+                }
+            }
+            for (ImageView hand : whiteHand) {
+                hand.setBackground(null);
+            }
+        }
     }
 
     public boolean onTouch(View v, MotionEvent event) {
         // ignore if not an "up" event
-        if (event.getAction() != MotionEvent.ACTION_UP) return true;
+        if (event.getAction() != MotionEvent.ACTION_UP) return false;
 
 
         // finds what is selected
@@ -361,7 +424,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
 
         }
         // register that we have handled the event
-        return true;
+        return false;
 
     }
 
