@@ -95,4 +95,17 @@ public class HiveTest {
         // Check the board did NOT place at the passed location
         assertNull(state.getBoard().get(0).get(0).getHex());
     }
+    @Test
+    public void forceBeeFirstFourPlaced(){ //Ethan Brown
+
+    }
+    @Test
+    public void stopMoveBeforeBee(){ // Ethan Brown
+
+    }
+    @Test
+    public void dontBreakHive(){
+
+    }
+
 }
