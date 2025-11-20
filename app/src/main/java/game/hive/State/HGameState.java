@@ -210,7 +210,7 @@ public class HGameState extends GameState implements View.OnClickListener {
             return false;
         }
 
-        // both curr dest and new destination must be on the board
+        // both old and new destination must be on the board
         if (!isInBounds(Xloc, Yloc) || !isInBounds(Xdest, Ydest)) {
             return false;
         }
@@ -223,7 +223,7 @@ public class HGameState extends GameState implements View.OnClickListener {
         HexSpace from = getHexSpace(Xloc, Yloc);
         HexSpace to = getHexSpace(Xdest, Ydest);
 
-        // if somehow null, move is invalid
+        // safety: both spaces must exist
         if (from == null || to == null) {
             return false;
         }
@@ -252,12 +252,14 @@ public class HGameState extends GameState implements View.OnClickListener {
             return false;
         }
 
-        // neighbors around the DESTINATION hex
-        HexSpace[] neighbors = getNeighbors(Xdest, Ydest);
+        // check if the remaining hive is still one connected group if we lift this piece
+        if (!hiveStaysConnected(Xloc, Yloc)) {
+            return false;
+        }
 
-        // destination must touch at least one piece (any color)
-        // keeps the hive connected
-        if (!anyNeighborHasPiece(neighbors)) {
+        // simple hive rule... destination must touch at least one piece (any color)
+        HexSpace[] destNeighbors = getNeighbors(Xdest, Ydest);
+        if (!anyNeighborHasPiece(destNeighbors)) {
             return false;
         }
 
@@ -267,42 +269,48 @@ public class HGameState extends GameState implements View.OnClickListener {
 
         boolean movementOK = false;
 
-        // QueenBee
-        if (pieceName.equals("QueenBee")) {
+        if ("QueenBee".equals(pieceName)) {
             movementOK = canQueenMove(Xloc, Yloc, Xdest, Ydest);
-        }
-
-        // Ant
-        else if (pieceName.equals("Ant")) {
+        } else if ("Ant".equals(pieceName)) {
             movementOK = canAntMove(Xloc, Yloc, Xdest, Ydest);
-        }
-
-        // Spider
-        else if (pieceName.equals("Spider")) {
+        } else if ("Spider".equals(pieceName)) {
             movementOK = canSpiderMove(Xloc, Yloc, Xdest, Ydest);
-        }
-
-        // Beetle
-        else if (pieceName.equals("Beetle")) {
+        } else if ("Beetle".equals(pieceName)) {
             movementOK = canBeetleMove(Xloc, Yloc, Xdest, Ydest);
-        }
-
-        // Grasshopper
-        else if (pieceName.equals("Grasshopper")) {
+        } else if ("Grasshopper".equals(pieceName)) {
             movementOK = canGrasshopperMove(Xloc, Yloc, Xdest, Ydest);
-        }
-
-        // Unknown piece type
-        else {
-            movementOK = false;
+        } else {
+            movementOK = false; // unknown piece
         }
 
         if (!movementOK) {
             return false;
         }
 
+        // make sure the hive is still one group AFTER the move
+        // use copy of the state so we don't mess up the real board
+        HGameState sim = new HGameState(this);  // deep copy current state
+
+        HexSpace simFrom = sim.getHexSpace(Xloc, Yloc);
+        HexSpace simTo   = sim.getHexSpace(Xdest, Ydest);
+
+        // safety
+        if (simFrom == null || simFrom.getHex() == null || simTo == null) {
+            return false;
+        }
+
+        // simulate the move on the copy
+        simTo.setHex(simFrom.getHex());
+        simFrom.setHex(null);
+
+        // (-1, -1), don't virtually remove anything, simply check for "ONE" hive
+        if (!sim.hiveStaysConnected(-1, -1)) {
+            return false;
+        }
+
         return true;
     }
+
 
     public boolean movePiece(int Xloc, int Yloc, int Xdest, int Ydest, int playerId) {
         // check valid move
@@ -644,6 +652,118 @@ public class HGameState extends GameState implements View.OnClickListener {
         // queen is "surrounded" only if all six neighbors have a piece
         return allNeighborsHavePiece(neighbors);
     }
+
+    // Check that the hive stays in one connected group
+    // if we remove the piece at (removeX, removeY)...
+    // DON'T change the board here we just act hex is empty
+    private boolean hiveStaysConnected(int removeX, int removeY) {
+        if (Board == null) return true;
+
+        // first, find all hexes that still have pieces on them
+        ArrayList<int[]> occupied = new ArrayList<>();
+
+        for (int row = 0; row < Board.size(); row++) {
+            ArrayList<HexSpace> boardRow = Board.get(row);
+            for (int col = 0; col < boardRow.size(); col++) {
+
+                // act like this hex is empty
+                if (row == removeX && col == removeY) {
+                    continue;
+                }
+
+                HexSpace space = boardRow.get(col);
+                if (space != null && space.getHex() != null) {
+                    occupied.add(new int[]{row, col});
+                }
+            }
+        }
+
+        // if there are 0 or 1 pieces left on the board,
+        // the hive can't be "split"
+        if (occupied.size() <= 1) {
+            return true;
+        }
+
+        // run BFS from one of the remaining pieces
+        // visited[r][c] == true means we already counted that hex
+        boolean[][] visited = new boolean[Board.size()][Board.get(0).size()];
+
+        // start BFS from the first piece in our list
+        int[] start = occupied.get(0);
+        java.util.ArrayDeque<int[]> queue = new java.util.ArrayDeque<>();
+        queue.add(start);
+        visited[start[0]][start[1]] = true;
+
+        int reached = 0; // pieces we can reach by walking along neighbors
+
+        while (!queue.isEmpty()) {
+            int[] cur = queue.remove();
+            int r = cur[0];
+            int c = cur[1];
+            reached++;
+
+            // figure out which 6 neighbors to use based on row connection
+            // same pattern as getNeighbors / isNeighbor layout
+            boolean isEvenRow = (r % 2 == 0);
+
+            int[][] adjPositionsEvenRow = {
+                    {-2, 0},  // up
+                    {-1, 0},  // up-right
+                    {-1, -1}, // up-left
+                    { 2, 0},  // down
+                    { 1, 0},  // down-right
+                    { 1, -1}  // down-left
+            };
+
+            int[][] adjPositionsOddRow = {
+                    {-2, 0},  // up
+                    {-1, 1},  // up-right
+                    {-1, 0},  // up-left
+                    { 2, 0},  // down
+                    { 1, 1},  // down-right
+                    { 1, 0}   // down-left
+            };
+
+            int[][] adjPositions = isEvenRow ? adjPositionsEvenRow : adjPositionsOddRow;
+
+            for (int[] adj : adjPositions) {
+                int neighborRow = r + adj[0];
+                int neighborCol = c + adj[1];
+
+                // skip the "removed" hex we're moving
+                if (neighborRow == removeX && neighborCol == removeY) {
+                    continue;
+                }
+
+                // must be on the board
+                if (!isInBounds(neighborRow, neighborCol)) {
+                    continue;
+                }
+
+                // already visited this hex
+                if (visited[neighborRow][neighborCol]) {
+                    continue;
+                }
+
+                HexSpace neighbor = getHexSpace(neighborRow, neighborCol);
+
+                // only move through hexes that have pieces
+                if (neighbor == null || neighbor.getHex() == null) {
+                    continue;
+                }
+
+                visited[neighborRow][neighborCol] = true;
+                queue.add(new int[]{neighborRow, neighborCol});
+            }
+        }
+
+        // if we can touch all pieces, the hive is still one
+        // if not, move is not allowed.
+        return (reached == occupied.size());
+    }
+
+
+
 
     // return -1, no winner yet; 0, white wins; 1, black wins
     public int checkWinner() {
