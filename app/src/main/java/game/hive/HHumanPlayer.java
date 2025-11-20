@@ -18,7 +18,7 @@ import game.hive.State.HSurfaceView;
 
 public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
 
-    
+
     private int layoutId;
     private HSurfaceView surfaceView;
     private boolean IsWhiteBeetleSelected = false;
@@ -41,6 +41,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
         super(name);
         this.layoutId = layoutId;
     }
+
     @Override
     public View getTopView() {
         return null;
@@ -48,9 +49,9 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
 
     @Override
     public void receiveInfo(GameInfo info) {
-        if(info instanceof HGameState){
-            HGameState state = (HGameState)info;
-            Logger.log("recievedInfo","humanplayer has new state");
+        if (info instanceof HGameState) {
+            HGameState state = (HGameState) info;
+            Logger.log("recievedInfo", "humanplayer has new state");
             surfaceView.setBoard(state.getBoard());
             surfaceView.invalidate();
         }
@@ -63,13 +64,13 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
         //Set contentView here
         activity.setContentView(layoutId);
         surfaceView = myActivity.findViewById(R.id.surfaceView);
-        Logger.log("set listener","OnTouch");
+        Logger.log("set listener", "OnTouch");
         surfaceView.setOnTouchListener(this);
         ImageView WhiteBeetle = myActivity.findViewById(R.id.WhiteBeetle);
         WhiteBeetle.setOnTouchListener(this);
         ImageView BlackBeetle = myActivity.findViewById(R.id.BlackBeetle);
         BlackBeetle.setOnTouchListener(this);
-        ImageView WhiteGrasshopper= myActivity.findViewById(R.id.WhiteGrasshopper);
+        ImageView WhiteGrasshopper = myActivity.findViewById(R.id.WhiteGrasshopper);
         WhiteGrasshopper.setOnTouchListener(this);
         ImageView BlackGrasshopper = myActivity.findViewById(R.id.BlackGrasshopper);
         BlackGrasshopper.setOnTouchListener(this);
@@ -98,11 +99,11 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
         BlackSpider.setImageResource(R.drawable.blkspider);
         //WhiteBeetle.invalidate();
 
-        whiteHand = new ImageView[] {WhiteBeetle, WhiteGrasshopper, WhiteBee, WhiteAnt, WhiteSpider};
-        blackHand = new ImageView[] {BlackBeetle, BlackGrasshopper, BlackBee, BlackAnt, BlackSpider};
+        whiteHand = new ImageView[]{WhiteBeetle, WhiteGrasshopper, WhiteBee, WhiteAnt, WhiteSpider};
+        blackHand = new ImageView[]{BlackBeetle, BlackGrasshopper, BlackBee, BlackAnt, BlackSpider};
 
-        for( ImageView hand : whiteHand){
-            hand.setOnClickListener(new View.OnClickListener(){
+        for (ImageView hand : whiteHand) {
+            hand.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
@@ -111,8 +112,8 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             });
         }
 
-        for( ImageView hand : blackHand){
-            hand.setOnClickListener(new View.OnClickListener(){
+        for (ImageView hand : blackHand) {
+            hand.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
@@ -131,6 +132,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
         surfaceView.setOnTouchListener(this);
 
     }
+
     private void highlightOnly(ImageView selected) {
         boolean isWhiteHand = Arrays.asList(whiteHand).contains(selected);
         if (isWhiteHand) {
@@ -165,7 +167,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
 
 
         // finds what is selected
-        if(v.getId()==R.id.WhiteBeetle){
+        if (v.getId() == R.id.WhiteBeetle) {
             IsWhiteBeetleSelected = false;
             IsBlackBeetleSelected = false;
             IsWhiteGrasshopperSelected = false;
@@ -178,7 +180,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackSpiderSelected = false;
             IsHexSelected = false;
             IsWhiteBeetleSelected = true;
-        } else if(v.getId()==R.id.BlackBeetle){
+        } else if (v.getId() == R.id.BlackBeetle) {
             IsWhiteBeetleSelected = false;
             IsBlackBeetleSelected = false;
             IsWhiteGrasshopperSelected = false;
@@ -191,7 +193,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackSpiderSelected = false;
             IsHexSelected = false;
             IsBlackBeetleSelected = true;
-        } else if(v.getId()==R.id.WhiteGrasshopper){
+        } else if (v.getId() == R.id.WhiteGrasshopper) {
             IsWhiteBeetleSelected = false;
             IsBlackBeetleSelected = false;
             IsWhiteGrasshopperSelected = false;
@@ -204,8 +206,8 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackSpiderSelected = false;
             IsHexSelected = false;
             IsWhiteGrasshopperSelected = true;
-            Logger.log("onTouch()","WhiteGrasshopperselected");
-        } else if(v.getId()==R.id.BlackGrasshopper){
+            Logger.log("onTouch()", "WhiteGrasshopperselected");
+        } else if (v.getId() == R.id.BlackGrasshopper) {
             IsWhiteBeetleSelected = false;
             IsBlackBeetleSelected = false;
             IsWhiteGrasshopperSelected = false;
@@ -218,7 +220,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackSpiderSelected = false;
             IsHexSelected = false;
             IsBlackGrasshopperSelected = true;
-        } else if(v.getId()==R.id.WhiteBee){
+        } else if (v.getId() == R.id.WhiteBee) {
             IsWhiteBeetleSelected = false;
             IsBlackBeetleSelected = false;
             IsWhiteGrasshopperSelected = false;
@@ -231,7 +233,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackSpiderSelected = false;
             IsHexSelected = false;
             IsWhiteBeeSelected = true;
-        } else if(v.getId()==R.id.BlackBee){
+        } else if (v.getId() == R.id.BlackBee) {
             IsWhiteBeetleSelected = false;
             IsBlackBeetleSelected = false;
             IsWhiteGrasshopperSelected = false;
@@ -244,7 +246,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackSpiderSelected = false;
             IsHexSelected = false;
             IsBlackBeeSelected = true;
-        } else if(v.getId()==R.id.WhiteAnt){
+        } else if (v.getId() == R.id.WhiteAnt) {
             IsWhiteBeetleSelected = false;
             IsBlackBeetleSelected = false;
             IsWhiteGrasshopperSelected = false;
@@ -257,7 +259,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackSpiderSelected = false;
             IsHexSelected = false;
             IsWhiteAntSelected = true;
-        } else if(v.getId()==R.id.BlackAnt){
+        } else if (v.getId() == R.id.BlackAnt) {
             IsWhiteBeetleSelected = false;
             IsBlackBeetleSelected = false;
             IsWhiteGrasshopperSelected = false;
@@ -270,7 +272,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackSpiderSelected = false;
             IsHexSelected = false;
             IsBlackAntSelected = true;
-        } else if(v.getId()==R.id.WhiteSpider){
+        } else if (v.getId() == R.id.WhiteSpider) {
             IsWhiteBeetleSelected = false;
             IsBlackBeetleSelected = false;
             IsWhiteGrasshopperSelected = false;
@@ -283,7 +285,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackSpiderSelected = false;
             IsHexSelected = false;
             IsWhiteSpiderSelected = true;
-        } else if(v.getId()==R.id.BlackSpider){
+        } else if (v.getId() == R.id.BlackSpider) {
             IsWhiteBeetleSelected = false;
             IsBlackBeetleSelected = false;
             IsWhiteGrasshopperSelected = false;
@@ -296,7 +298,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
             IsBlackSpiderSelected = false;
             IsHexSelected = false;
             IsBlackSpiderSelected = true;
-        } else if (v.getId()==R.id.surfaceView) {
+        } else if (v.getId() == R.id.surfaceView) {
 
 
             // get the x and y coordinates of the touch-location;
@@ -314,93 +316,85 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 return true;
             }
 
-            int row = p.x;
-            int col = p.y;
+            int col = p.x;
+            int row = p.y;
 
-            if(IsWhiteBeetleSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Beetle");
+            if (IsWhiteBeetleSelected) {
+                HPlaceAction action = new HPlaceAction(this, col, row, "Beetle");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteBeetleSelected = false;
                 return true;
-            }
-            else if(IsBlackBeetleSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Beetle");
+            } else if (IsBlackBeetleSelected) {
+                HPlaceAction action = new HPlaceAction(this, col, row, "Beetle");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsBlackBeetleSelected = false;
                 return true;
-            }
-            else if(IsWhiteGrasshopperSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Grasshopper");
+            } else if (IsWhiteGrasshopperSelected) {
+                HPlaceAction action = new HPlaceAction(this, col, row, "Grasshopper");
                 Logger.log("onTouch", "Human player sending Place White GrassHopper...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteGrasshopperSelected = false;
                 return true;
-            }
-            else if(IsBlackGrasshopperSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Grasshopper");
+            } else if (IsBlackGrasshopperSelected) {
+                HPlaceAction action = new HPlaceAction(this, col, row, "Grasshopper");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsBlackGrasshopperSelected = false;
                 return true;
-            }
-            else if(IsWhiteBeeSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"QueenBee");
+            } else if (IsWhiteBeeSelected) {
+                HPlaceAction action = new HPlaceAction(this, col, row, "QueenBee");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteBeeSelected = false;
                 return true;
-            }
-            else if(IsBlackBeeSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"QueenBee");
+            } else if (IsBlackBeeSelected) {
+                HPlaceAction action = new HPlaceAction(this, col, row, "QueenBee");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsBlackBeeSelected = false;
                 return true;
-            }
-            else if(IsWhiteAntSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Ant");
+            } else if (IsWhiteAntSelected) {
+                HPlaceAction action = new HPlaceAction(this, col, row, "Ant");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteAntSelected = false;
                 return true;
-            }
-            else if(IsBlackAntSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Ant");
+            } else if (IsBlackAntSelected) {
+                HPlaceAction action = new HPlaceAction(this, col, row, "Ant");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsBlackAntSelected = false;
                 return true;
-            }
-            else if(IsWhiteSpiderSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Spider");
+            } else if (IsWhiteSpiderSelected) {
+                HPlaceAction action = new HPlaceAction(this, col, row, "Spider");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsWhiteSpiderSelected = false;
                 return true;
-            }
-            else if(IsBlackSpiderSelected){
-                HPlaceAction action =  new HPlaceAction(this,p.x,p.y,"Spider");
+            } else if (IsBlackSpiderSelected) {
+                HPlaceAction action = new HPlaceAction(this, col, row, "Spider");
                 Logger.log("onTouch", "Human player sending HMA ...");
                 game.sendAction(action);
                 surfaceView.invalidate();
                 IsBlackSpiderSelected = false;
                 return true;
-            }
-            else if(IsHexSelected) {
+            } else if (IsHexSelected) {
 
-                HMoveAction action = new HMoveAction(this, LastX, LastY, p.x, p.y);
-                Logger.log("onTouch", "Human player sending move ...");
+                // LastX = col, LastY = row, but HGameState is (row, col)
+                HMoveAction action = new HMoveAction(this, LastY, LastX, row, col);
+                Logger.log("onTouch",
+                        "Human player sending move from (" + LastY + "," + LastX + ") to (" + row + "," + col + ")");
                 game.sendAction(action);
 
                 IsWhiteBeetleSelected = false;
@@ -414,13 +408,17 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
                 IsWhiteSpiderSelected = false;
                 IsBlackSpiderSelected = false;
                 IsHexSelected = false;
-            }
-            else{
-                LastX = p.x;
-                LastY = p.y;
-                Logger.log("ishexSelected","human player ishexSelected true");
+
+                surfaceView.invalidate();
+                return true;
+            } else {
+                LastX = col;
+                LastY = row;
+                Logger.log("ishexSelected",
+                        "human player ishexSelected true at (" + col + "," + row + ")");
                 IsHexSelected = true;
             }
+
 
         }
         // register that we have handled the event

@@ -15,6 +15,10 @@ public class HGameState extends GameState implements View.OnClickListener {
     ArrayList<Hex> BlacksHand;
     ArrayList<ArrayList<HexSpace>> Board;
 
+    private static final int FIRST_ROW = 16; // y-number you see on board
+    private static final int FIRST_COL = 8;  // x-number you see on board
+
+
     public HGameState() {
         activePlayer = 1;
         isBeePlaced[0] = false;
@@ -108,6 +112,11 @@ public class HGameState extends GameState implements View.OnClickListener {
             return false;
         }
 
+        // cannot place a piece that is no longer in this player's hand
+        if (!playerHasPieceInHand(name, playerId)) {
+            return false;
+        }
+
         HexSpace selected = getHexSpace(X, Y);
         if (selected == null) {
             return false;
@@ -124,87 +133,75 @@ public class HGameState extends GameState implements View.OnClickListener {
             return false;
         }
 
-        // first turn: center placement always
+        // first turn: always allowed (coords are forced in placePiece)
         if (turnNumber == 1) {
             return true;
         }
 
-        // SPECIAL CASE: turn 2
-        // only requirement: must be next to the very first piece at (7,7)
+        // turn 2: must be next to the very first piece at (FIRST_COL, FIRST_ROW)
         if (turnNumber == 2) {
-            boolean nextToFirst = isAdjacentToFirstPiece(X, Y);
-            if (!nextToFirst) {
-                return false;
-            }
-            // we already checked in-bounds and that the hex is empty above
-            return true;
+            return isAdjacentToFirstPiece(X, Y);
         }
 
-        // from here on, use normal neighbor rules
+        // ----- Normal placement rule from turn 3+ -----
+
         HexSpace[] neighbors = getNeighbors(X, Y);
 
-        // Player color determination
-        Hex.Color myColor;
-        Hex.Color oppColor;
+        // determine my color and opponent color
+        Hex.Color myColor = (activePlayer == 0) ? Hex.Color.WHITE : Hex.Color.BLACK;
+        Hex.Color oppColor = (activePlayer == 0) ? Hex.Color.BLACK : Hex.Color.WHITE;
 
-        if (activePlayer == 0) {
-            myColor = Hex.Color.WHITE;
-            oppColor = Hex.Color.BLACK;
-        } else {
-            myColor = Hex.Color.BLACK;
-            oppColor = Hex.Color.WHITE;
+        // must touch at least ONE of your own pieces
+        if (!anyNeighborHasColor(neighbors, myColor)) {
+            return false;
         }
 
-        // later turns: must be next to at least one of own pieces
-        return anyNeighborHasColor(neighbors, myColor);
+        // and must NOT touch ANY opponent pieces
+        if (anyNeighborHasColor(neighbors, oppColor)) {
+            return false;
+        }
+
+        return true;
     }
+
 
     // place piece at (X, Y) if isValidPlacement
     // advance turn is in here
     public boolean placePiece(int X, int Y, String name, int playerId) {
-        // first turn, force the piece to be placed at (7,7)
+        // X = row, Y = col
+
+        // first turn, force to (row=16, col=8) so board shows "8,16"
         if (turnNumber == 1) {
-            X = 7;
-            Y = 7;
+            X = FIRST_ROW;
+            Y = FIRST_COL;
         }
 
-        // check for valid placement
         if (!isValidPlacement(X, Y, name, playerId)) {
-            return false; // illegal placement, do nothing
+            return false;
         }
 
-        // extra check to avoid crash
         HexSpace selected = getHexSpace(X, Y);
         if (selected == null) {
-            return false; // safety check; should not happen if isValidPlacement worked
+            return false;
         }
 
-        // Decide the color based on activePlayer
-        // 0 = WHITE, 1 = BLACK
         Hex.Color color = (activePlayer == 0) ? Hex.Color.WHITE : Hex.Color.BLACK;
 
-        // Actually place the piece on the board
         selected.setHex(new Hex(color, name));
-        Logger.log(
-                "place piece",
-                "placed " + (color == Hex.Color.WHITE ? "white" : "black")
-                        + " piece '" + name + "' at (" + X + ", " + Y + ")"
-        );
+        Logger.log("place piece", "placed " + (color == Hex.Color.WHITE ? "white" : "black") + " piece '" + name + "' at (" + X + ", " + Y + ")");
 
-        // if queen just placed for this player... remember queen placed
         if ("QueenBee".equals(name)) {
             isBeePlaced[activePlayer] = true;
         }
 
-        // remove this piece from the player's hand
         removeFromHand(name, activePlayer);
 
-        // advance game state
         turnNumber++;
-        activePlayer = 1 - activePlayer; // alternate players
+        activePlayer = 1 - activePlayer;
 
-        return true; // successfully placed
+        return true;
     }
+
 
     public boolean isValidMove(int Xloc, int Yloc, int Xdest, int Ydest, int playerId) {
 
@@ -348,13 +345,7 @@ public class HGameState extends GameState implements View.OnClickListener {
 
     @Override
     public String toString() {
-        return "HiveState{"
-                + "turn=" + turnNumber
-                + ", activePlayer=" + activePlayer
-                + ", beePlaced=" + java.util.Arrays.toString(isBeePlaced)
-                + ", WhitesHand=" + WhitesHand
-                + ", BlacksHand=" + BlacksHand
-                + "}";
+        return "HiveState{" + "turn=" + turnNumber + ", activePlayer=" + activePlayer + ", beePlaced=" + java.util.Arrays.toString(isBeePlaced) + ", WhitesHand=" + WhitesHand + ", BlacksHand=" + BlacksHand + "}";
     }
 
     public ArrayList<Hex> getBlackHand() {
@@ -422,25 +413,76 @@ public class HGameState extends GameState implements View.OnClickListener {
         }
     }
 
+    // true if this player still has at least one copy of "name" in their hand
+    private boolean playerHasPieceInHand(String name, int playerId) {
+
+        ArrayList<Hex> hand;
+        if (playerId == 0) {
+            hand = WhitesHand;
+        } else {
+            hand = BlacksHand;
+        }
+
+
+        for (Hex h : hand) {
+            if (h != null && name.equals(h.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     // ===== helpers for neighbor checks =====
 
-    // true if (X, Y) is directly next to the very first piece at (7,7)
+    // Returns true ONLY if (row=X, col=Y) is one of the 6 hexes
+    // that visually touch the first piece at (FIRST_ROW, FIRST_COL)
     private boolean isAdjacentToFirstPiece(int X, int Y) {
-        int dx = X - 7;
-        int dy = Y - 7;
+        // Center of the first piece in board coordinates (row, col)
+        int centerRow = FIRST_ROW;
+        int centerCol = FIRST_COL;
 
-        // can't be on top of the first piece itself
-        if (dx == 0 && dy == 0) {
+        // same tile as the center, false
+        if (X == centerRow && Y == centerCol) {
             return false;
         }
 
-        // neighbor if both dx and dy are in [-1, 1]
-        if (dx >= -1 && dx <= 1 && dy >= -1 && dy <= 1) {
-            return true;
-        }
+    /*
+        Because of how our hex grid is drawn, the 6 touching tiles around
+        (centerRow, centerCol) are at these offsets:
 
+            (centerRow - 2, centerCol)     // straight up
+            (centerRow - 1, centerCol)     // upper-right
+            (centerRow - 1, centerCol - 1) // upper-left
+            (centerRow + 2, centerCol)     // straight down
+            (centerRow + 1, centerCol)     // lower-right
+            (centerRow + 1, centerCol - 1) // lower-left
+
+        FIRST_ROW / FIRST_COL change,  offsets should still work relative to that center
+    */
+
+        // straight up
+        if (X == centerRow - 2 && Y == centerCol) return true;
+
+        // upper right
+        if (X == centerRow - 1 && Y == centerCol) return true;
+
+        // upper left
+        if (X == centerRow - 1 && Y == centerCol - 1) return true;
+
+        // straight down
+        if (X == centerRow + 2 && Y == centerCol) return true;
+
+        // lower right
+        if (X == centerRow + 1 && Y == centerCol) return true;
+
+        // lower left
+        if (X == centerRow + 1 && Y == centerCol - 1) return true;
+
+        // anything else is not adjacent to the first piece
         return false;
     }
+
 
     // returns true if ANY neighbor has a piece of the given color
     private boolean anyNeighborHasColor(HexSpace[] neighbors, Hex.Color color) {
@@ -472,45 +514,65 @@ public class HGameState extends GameState implements View.OnClickListener {
         return true;
     }
 
-    // return the 6 neighboring hexes around (x, y)
+    // return the 6 neighboring hexes around (row, col)
+    //  HERE!!!! x=row, y=col in Board.get(x).get(y)
     private HexSpace[] getNeighbors(int x, int y) {
-        return new HexSpace[]{
-                getHexSpace(x, y - 1),   // left
-                getHexSpace(x, y + 1),   // right
-                getHexSpace(x - 1, y),   // up
-                getHexSpace(x + 1, y),   // down
-                getHexSpace(x - 1, y + 1), // up-right
-                getHexSpace(x + 1, y - 1)  // down-left
-        };
+        int row = x;
+        int col = y;
+        boolean isEvenRow = (row % 2 == 0);
+
+        if (isEvenRow) {
+            return new HexSpace[]{getHexSpace(row - 2, col),       // up
+                    getHexSpace(row - 1, col),       // up-right
+                    getHexSpace(row - 1, col - 1),   // up-left
+                    getHexSpace(row + 2, col),       // down
+                    getHexSpace(row + 1, col),       // down-right
+                    getHexSpace(row + 1, col - 1)    // down-left
+            };
+        } else {
+            return new HexSpace[]{getHexSpace(row - 2, col),       // up
+                    getHexSpace(row - 1, col + 1),   // up-right
+                    getHexSpace(row - 1, col),       // up-left
+                    getHexSpace(row + 2, col),       // down
+                    getHexSpace(row + 1, col + 1),   // down-right
+                    getHexSpace(row + 1, col)        // down-left
+            };
+        }
     }
+
 
     // true if (Xdest, Ydest) is one of the 6 neighbors of (Xloc, Yloc)
+    // !!!! x = row index, y = col !!!!
     private boolean isNeighbor(int Xloc, int Yloc, int Xdest, int Ydest) {
-        int dx = Xdest - Xloc;
-        int dy = Ydest - Yloc;
 
-        boolean neighbor = false;
+        // same tile is never a neighbor
+        if (Xloc == Xdest && Yloc == Ydest) return false;
 
-        // left / right
-        if (dx == 0 && (dy == -1 || dy == 1)) {
-            neighbor = true;
+        int row = Xloc;
+        int col = Yloc;
+        boolean isEvenRow = (row % 2 == 0);
+
+        int dr = Xdest - Xloc;
+        int dc = Ydest - Yloc;
+
+        if (dr == -2 && dc == 0) return true; // up
+        if (dr == +2 && dc == 0) return true; // down
+
+        if (isEvenRow) {
+            if (dr == -1 && dc == 0) return true; // up-right
+            if (dr == -1 && dc == -1) return true; // up-left
+            if (dr == +1 && dc == 0) return true; // down-right
+            if (dr == +1 && dc == -1) return true; // down-left
+        } else {
+            if (dr == -1 && dc == +1) return true; // up-right
+            if (dr == -1 && dc == 0) return true; // up-left
+            if (dr == +1 && dc == +1) return true; // down-right
+            if (dr == +1 && dc == 0) return true; // down-left
         }
 
-        // up / down
-        if ((dx == -1 || dx == 1) && dy == 0) {
-            neighbor = true;
-        }
-
-        // diagonals (up-right, down-left)
-        if (dx == -1 && dy == 1) {
-            neighbor = true;
-        }
-        if (dx == 1 && dy == -1) {
-            neighbor = true;
-        }
-
-        return neighbor;
+        return false;
     }
+
 
     // ===== movement helpers (currently 1-step like Queen) =====
 
