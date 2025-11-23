@@ -101,7 +101,7 @@ public class HiveTest {
 
 
     /**
-     * Moving a piece from (15,15) to (16,15) for the current active player
+     * Moving a piece from (10,10) to (8,10) for the current active player
      * should succeed, update the board, and flip the turn.
      */
     @Test
