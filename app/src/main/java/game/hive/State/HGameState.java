@@ -580,8 +580,6 @@ public class HGameState extends GameState implements View.OnClickListener {
 
         return false;
     }
-
-
     // ===== movement helpers (currently 1-step like Queen) =====
 
     private boolean canQueenMove(int Xloc, int Yloc, int Xdest, int Ydest) {

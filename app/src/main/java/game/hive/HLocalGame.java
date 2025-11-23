@@ -37,6 +37,12 @@ public class HLocalGame extends LocalGame {
 
     @Override
     protected String checkIfGameOver() {
+        HGameState myState = (HGameState) state;  // cast to your concrete state
+        int winner = myState.checkWinner();
+
+        if (winner == -1) return null;           // game still going
+        if (winner == 0)  return "White wins!";
+        if (winner == 1)  return "Black wins!";
         return null;
     }
 

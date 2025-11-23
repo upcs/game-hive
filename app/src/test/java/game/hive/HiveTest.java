@@ -65,6 +65,7 @@ public class HiveTest {
 
 
 
+    @sinai
     //copy constructor must create a deep copy...
     //changing the copy's board should not change the original.
     @Test
