@@ -129,7 +129,7 @@ public class HGameState extends GameState implements View.OnClickListener {
 
         // if turn 4 and player still has NOT placed their queen
         // then only allow "QueenBee" to be placed
-        if (turnNumber > 4 && !isBeePlaced[playerId] && !"QueenBee".equals(name)) {
+        if (turnNumber > 6 && !isBeePlaced[playerId] && !"QueenBee".equals(name)) {
             return false;
         }
 
@@ -217,6 +217,10 @@ public class HGameState extends GameState implements View.OnClickListener {
 
         // must be this player's turn
         if (playerId != activePlayer) {
+            return false;
+        }
+        // players bee must be placed
+        if (!isBeePlaced[playerId]){
             return false;
         }
 
