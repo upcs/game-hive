@@ -591,10 +591,11 @@ public class HGameState extends GameState implements View.OnClickListener {
     }
 
     private boolean canAntMove(int Xloc, int Yloc, int Xdest, int Ydest) {
-        return isNeighbor(Xloc, Yloc, Xdest, Ydest);
+        return true;
     }
 
     private boolean canSpiderMove(int Xloc, int Yloc, int Xdest, int Ydest) {
+
         return isNeighbor(Xloc, Yloc, Xdest, Ydest);
     }
 
@@ -603,7 +604,40 @@ public class HGameState extends GameState implements View.OnClickListener {
     }
 
     private boolean canGrasshopperMove(int Xloc, int Yloc, int Xdest, int Ydest) {
-        return isNeighbor(Xloc, Yloc, Xdest, Ydest);
+        boolean rtn = false;
+        HexSpace[] N1 = getNeighbors(Xloc,Yloc);
+        if(N1[0].getColor()!= Hex.Color.NONE){
+            HexSpace up = N1[0];
+            int UpX = Xloc -2;
+            int UpY = Yloc;
+            while(up.getColor()!= Hex.Color.NONE){
+                UpX = UpX - 2;
+                up = getHexSpace(UpX,UpY);
+
+            }
+            if(UpX==Xdest) rtn = true;
+        }
+        if(N1[1].getColor()!= Hex.Color.NONE){
+            HexSpace upRight = N1[1];
+            int UpRightX = Xloc -1;
+            int UpRightY = Yloc;
+            if (Xloc % 2 != 0){
+                UpRightY = UpRightY +1;
+            }
+            while(upRight.getColor()!= Hex.Color.NONE){
+                if (UpRightX % 2 != 0){
+                    UpRightY = UpRightY +1;
+                }
+                UpRightX = UpRightX -1;
+                upRight = getHexSpace(UpRightX,UpRightY);
+            }
+            if(UpRightY==Ydest&&UpRightX==Xdest) rtn = true;
+        }
+        if(N1[2].getColor()!= Hex.Color.NONE){
+            //contiue this pattern for all 6
+        }
+
+        return rtn;
     }
 
     // find the queen on the board
