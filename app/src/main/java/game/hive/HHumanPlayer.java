@@ -15,12 +15,14 @@ import game.hive.GameFramework.players.GameHumanPlayer;
 import game.hive.GameFramework.utilities.Logger;
 import game.hive.State.HGameState;
 import game.hive.State.HSurfaceView;
+import game.hive.State.HexSpace;
 
 public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
 
 
     private int layoutId;
     private HSurfaceView surfaceView;
+private GameInfo hexInfo;
     private boolean IsWhiteBeetleSelected = false;
     private boolean IsBlackBeetleSelected = false;
     private boolean IsWhiteGrasshopperSelected = false;
@@ -40,6 +42,7 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
     public HHumanPlayer(String name, int layoutId) {
         super(name);
         this.layoutId = layoutId;
+
     }
 
     @Override
@@ -52,9 +55,13 @@ public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListene
         if (info instanceof HGameState) {
             HGameState state = (HGameState) info;
             Logger.log("recievedInfo", "humanplayer has new state");
+            setInfo(info);
             surfaceView.setBoard(state.getBoard());
             surfaceView.invalidate();
         }
+    }
+    public void setInfo(GameInfo info){
+        hexInfo = info;
     }
 
     @Override
