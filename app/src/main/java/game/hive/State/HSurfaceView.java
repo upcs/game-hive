@@ -36,20 +36,14 @@ public class HSurfaceView extends SurfaceView {
     private final float colStep = s + a;
     private static final int TOTAL_ROWS = 34;
     private static final int TOTAL_COLS = 17;
-    private String[][] boardPieces = new String[TOTAL_ROWS][TOTAL_COLS];
-
 
     // debug vals
     private float dbgX = -1f;
     private float dbgY = -1f;
     private Point dbgHexTile = null;
 
-
-
-    private String selectedPiece = null;
-
-
     private ArrayList<ArrayList<HexSpace>> board;
+    private Point selectedHex = new Point(6,6);
 
     
 
@@ -81,6 +75,8 @@ public class HSurfaceView extends SurfaceView {
         super.onDraw(canvas);
         Paint hexColor = new Paint();
         hexColor.setColor(Color.WHITE);
+        Paint highlightColor = new Paint();
+        hexColor.setColor(Color.YELLOW);
 
 
         final float s = LENGTH; //side length
@@ -97,6 +93,7 @@ public class HSurfaceView extends SurfaceView {
 
             for (int col = 0; col < TOTAL_COLS; col++) {
                 float x0 = startX + xRowOffset + col * (2f * colStep);
+                //
                 drawHex(x0, y0, hexColor, canvas, r, col);
             }
         }
@@ -219,6 +216,25 @@ public class HSurfaceView extends SurfaceView {
         canvas.drawText(text, centerX, centerY, textPaint);
 
     }
+    public void drawHighlight(float x, float y, Paint color, Canvas canvas, int row, int col){
+
+            // top
+            canvas.drawLine(x, y, x + s, y, color);
+            // top right
+            canvas.drawLine(x + s, y, x + s + a, y + b, color);
+            // bottom right
+            canvas.drawLine(x + s + a, y + b, x + s, y + 2*b, color);
+            // bottom
+            canvas.drawLine(x + s, y + 2*b, x, y + 2*b, color);
+            // bottom left
+            canvas.drawLine(x, y + 2*b, x - a, y + b, color);
+            // top left
+            canvas.drawLine(x - a, y + b, x, y, color);
+            invalidate();
+
+
+
+    }
 
     // convert map (x,y) to board (row,col)
     public Point mapPixelToHex(float x, float y){
@@ -287,6 +303,16 @@ public class HSurfaceView extends SurfaceView {
             float right =  s + a - (a / b) * t;// s+a to s
             return dx >= left && dx <= right;
         }
+    }
+
+    public void setSelectedHex(Point hex) {
+        this.selectedHex = hex;
+        invalidate();
+    }
+
+    public void clearSelectedHex() {
+        this.selectedHex = null;
+        invalidate();
     }
 
 }
