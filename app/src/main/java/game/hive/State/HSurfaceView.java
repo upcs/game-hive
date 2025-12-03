@@ -166,6 +166,8 @@ public class HSurfaceView extends SurfaceView {
         float left = centerX - scaledBitmap.getWidth() / 2f;
         float top = centerY - scaledBitmap.getHeight() / 2f;
         canvas.drawBitmap(scaledBitmap, left, top, null);
+
+
     }
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -274,6 +276,10 @@ public class HSurfaceView extends SurfaceView {
 
     public void setBoard(ArrayList<ArrayList<HexSpace>> board) {
         this.board = board;
+    }
+
+    public ArrayList<ArrayList<HexSpace>> getBoard() {
+        return board;
     }
 
     public void setDebugTap(float x, float y, Point hexTile) {
