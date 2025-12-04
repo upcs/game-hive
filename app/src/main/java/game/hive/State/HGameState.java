@@ -634,8 +634,22 @@ public class HGameState extends GameState implements View.OnClickListener {
             if(UpRightY==Ydest&&UpRightX==Xdest) rtn = true;
         }
         if(N1[2].getColor()!= Hex.Color.NONE){
-            //contiue this pattern for all 6
+            HexSpace upLeft = N1[2];
+            int UpLeftX = Xloc -1;
+            int UpLeftY = Yloc;
+            if (Xloc % 2 ==0){
+                UpLeftY = UpLeftY -1;
+            }
+            while(upLeft.getColor()!= Hex.Color.NONE){
+                if(UpLeftX % 2 == 0){
+                    UpLeftY = UpLeftY -1;
+                }
+                UpLeftX = UpLeftX -1;
+                upLeft = getHexSpace(UpLeftX,UpLeftY);
+            }
+            if(UpLeftY==Ydest&&UpLeftX==Xdest) rtn = true;
         }
+        //contiue this pattern for all 6
 
         return rtn;
     }
