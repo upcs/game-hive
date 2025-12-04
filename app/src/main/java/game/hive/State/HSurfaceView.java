@@ -43,7 +43,10 @@ public class HSurfaceView extends SurfaceView {
     private Point dbgHexTile = null;
 
     private ArrayList<ArrayList<HexSpace>> board;
-    private Point selectedHex = new Point(6,6);
+    Paint highlightColor = new Paint();
+    private boolean hexSelected;
+    private Point tappedHex;
+
 
     
 
@@ -52,7 +55,8 @@ public class HSurfaceView extends SurfaceView {
         setWillNotDraw(false);
         setFocusable(true);
         setClickable(true);
-
+        highlightColor.setColor(Color.RED);
+        hexSelected = false;
         pieces = new HashMap<>();
         pieces.put("Beetle", BitmapFactory.decodeResource(getResources(), R.drawable.beetle));
         pieces.put("Grasshopper", BitmapFactory.decodeResource(getResources(), R.drawable.grasshopper));
@@ -75,8 +79,8 @@ public class HSurfaceView extends SurfaceView {
         super.onDraw(canvas);
         Paint hexColor = new Paint();
         hexColor.setColor(Color.WHITE);
-        Paint highlightColor = new Paint();
-        hexColor.setColor(Color.YELLOW);
+
+        hexColor.setColor(Color.WHITE);
 
 
         final float s = LENGTH; //side length
@@ -136,6 +140,11 @@ public class HSurfaceView extends SurfaceView {
         canvas.drawText(line1, 100f, 115f, tp);
         canvas.drawText(line2, 100f, 160f, tp);
         //end of debugger
+
+        //drawing highlight
+        if(hexSelected) {
+            drawHighlight(canvas);
+        }
     }
 
     public void drawPieceAtHex(Canvas canvas, String namePiece, int row, int col, Hex.Color color) {
@@ -175,11 +184,16 @@ public class HSurfaceView extends SurfaceView {
             float x = event.getX();
             float y = event.getY();
 
-            Point tappedHex = mapPixelToHex(x, y);
-
-
+            tappedHex = mapPixelToHex(x, y);
+            if(tappedHex == null){
+                hexSelected = false;
+                return true;
+            }
             setDebugTap(x, y, tappedHex);
+            hexSelected = true;
             invalidate();
+
+
         }
         return true;
     }
@@ -218,23 +232,36 @@ public class HSurfaceView extends SurfaceView {
         canvas.drawText(text, centerX, centerY, textPaint);
 
     }
-    public void drawHighlight(float x, float y, Paint color, Canvas canvas, int row, int col){
+    public void drawHighlight(Canvas canvas){
+            int y = tappedHex.x;
+            int x = tappedHex.y;
+        float y0 = startY + x * b;
 
+        // odd TOTAL_ROWS shift right by (s + a)
+        boolean isOdd = (x & 1) == 1;
+
+        float xRowOffset = isOdd ? (s + a) : 0f;
+
+
+            float x0 = startX + xRowOffset + y * (2f * colStep);
+
+            drawHex(x0, y0, highlightColor, canvas, x, y);/*
+            highlightColor.setStyle(Paint.Style.STROKE);
             // top
-            canvas.drawLine(x, y, x + s, y, color);
+            canvas.drawLine(x, y, x + s, y, highlightColor);
             // top right
-            canvas.drawLine(x + s, y, x + s + a, y + b, color);
+            canvas.drawLine(x + s, y, x + s + a, y + b, highlightColor);
             // bottom right
-            canvas.drawLine(x + s + a, y + b, x + s, y + 2*b, color);
+            canvas.drawLine(x + s + a, y + b, x + s, y + 2*b, highlightColor);
             // bottom
-            canvas.drawLine(x + s, y + 2*b, x, y + 2*b, color);
+            canvas.drawLine(x + s, y + 2*b, x, y + 2*b, highlightColor);
             // bottom left
-            canvas.drawLine(x, y + 2*b, x - a, y + b, color);
+            canvas.drawLine(x, y + 2*b, x - a, y + b, highlightColor);
             // top left
-            canvas.drawLine(x - a, y + b, x, y, color);
-            invalidate();
+            canvas.drawLine(x - a, y + b, x, y, highlightColor);
 
 
+*/
 
     }
 
@@ -311,14 +338,5 @@ public class HSurfaceView extends SurfaceView {
         }
     }
 
-    public void setSelectedHex(Point hex) {
-        this.selectedHex = hex;
-        invalidate();
-    }
-
-    public void clearSelectedHex() {
-        this.selectedHex = null;
-        invalidate();
-    }
 
 }
