@@ -76,10 +76,7 @@ public class HSurfaceView extends SurfaceView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         Paint hexColor = new Paint();
-        hexColor.setColor(Color.WHITE);
-
-        hexColor.setColor(Color.WHITE);
-
+        hexColor.setColor(Color.YELLOW);
 
         final float s = LENGTH; //side length
 

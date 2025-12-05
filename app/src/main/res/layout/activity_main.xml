@@ -14,14 +14,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="390dp"
+            android:layout_marginTop="30dp"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Whites Hand"
                 android:textSize="20sp" />
@@ -29,7 +30,7 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="#262424"
                 android:text="    Blacks Hand"
@@ -39,154 +40,130 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="411dp"
             android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="344dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/WhiteBeetle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/whtbeetle" />
+
+                <ImageView
+                    android:id="@+id/WhiteAnt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/whtant" />
+
+                <ImageView
+                    android:id="@+id/WhiteGrasshopper"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/whtgrasshopper" />
+
+                <ImageView
+                    android:id="@+id/WhiteBee"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/whtqueenbee" />
+
+                <ImageView
+                    android:id="@+id/WhiteSpider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/whtspider" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="358dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/BlackAnt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/blkant" />
+
+                <ImageView
+                    android:id="@+id/BlackBeetle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/blkbeetle" />
+
+                <ImageView
+                    android:id="@+id/BlackGrasshopper"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/blkgrasshopper" />
+
+                <ImageView
+                    android:id="@+id/BlackSpider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/blkspider" />
+
+                <ImageView
+                    android:id="@+id/BlackBee"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/blkqueenbee" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-            <ImageView
-                android:id="@+id/WhiteBeetle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="@android:color/transparent"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/whtbeetle" />
+                android:layout_weight="7"
+                android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/WhiteGrasshopper"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                android:background="@android:color/transparent"
-                app:srcCompat="@drawable/whtgrasshopper" />
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="--" />
 
-            <ImageView
-                android:id="@+id/WhiteBee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/whtqueenbee" />
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="--" />
 
-            <ImageView
-                android:id="@+id/WhiteAnt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/whtant" />
+            </LinearLayout>
 
-            <ImageView
-                android:id="@+id/WhiteSpider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/whtspider" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <game.hive.State.HSurfaceView
+                android:id="@+id/surfaceView"
+                android:layout_width="match_parent"
+                android:layout_height="752dp"
                 android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/BlackBeetle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/whtbeetle" />
-
-            <ImageView
-                android:id="@+id/BlackGrasshopper"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/whtgrasshopper" />
-
-            <ImageView
-                android:id="@+id/BlackBee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/whtqueenbee" />
-
-            <ImageView
-                android:id="@+id/BlackAnt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/whtant" />
-
-            <ImageView
-                android:id="@+id/BlackSpider"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:focusable="true"
-                app:srcCompat="@drawable/whtspider" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.2"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="7"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Undo" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Quit" />
 
         </LinearLayout>
-
-        <game.hive.State.HSurfaceView
-            android:id="@+id/surfaceView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-
-    </LinearLayout>
 </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
