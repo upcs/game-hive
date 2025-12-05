@@ -109,21 +109,13 @@ public class HComputerPlayerSmart extends GameComputerPlayer {
 
                 game.sendAction(actionMove);
 
-                // rndmly pick location that valid
-                //
+
 
 
 
             }
-            //HPlaceAction action =  new HPlaceAction(this,6,6,"Spider");
-            //Logger.log("computer", "computer player sending HMA ...");
-            //game.sendAction(action);
 
         }
-
-
-        //Logger.log("TTTComputer", "Sending move");
-        //game.sendAction(new TTTMoveAction(this, yVal, xVal));
 
     }
 

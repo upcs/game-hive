@@ -56,7 +56,7 @@
                 android:focusable="true"
                 android:background="@android:color/transparent"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/beetle" />
+                app:srcCompat="@drawable/whtbeetle" />
 
             <ImageView
                 android:id="@+id/WhiteGrasshopper"
@@ -66,7 +66,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:background="@android:color/transparent"
-                app:srcCompat="@drawable/grasshopper" />
+                app:srcCompat="@drawable/whtgrasshopper" />
 
             <ImageView
                 android:id="@+id/WhiteBee"
@@ -75,7 +75,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/queenbee" />
+                app:srcCompat="@drawable/whtqueenbee" />
 
             <ImageView
                 android:id="@+id/WhiteAnt"
@@ -84,7 +84,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/soldierant" />
+                app:srcCompat="@drawable/whtant" />
 
             <ImageView
                 android:id="@+id/WhiteSpider"
@@ -93,7 +93,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/spider" />
+                app:srcCompat="@drawable/whtspider" />
 
             <Space
                 android:layout_width="wrap_content"
@@ -114,7 +114,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/beetle" />
+                app:srcCompat="@drawable/whtbeetle" />
 
             <ImageView
                 android:id="@+id/BlackGrasshopper"
@@ -123,7 +123,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/grasshopper" />
+                app:srcCompat="@drawable/whtgrasshopper" />
 
             <ImageView
                 android:id="@+id/BlackBee"
@@ -132,7 +132,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/queenbee" />
+                app:srcCompat="@drawable/whtqueenbee" />
 
             <ImageView
                 android:id="@+id/BlackAnt"
@@ -141,7 +141,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/soldierant" />
+                app:srcCompat="@drawable/whtant" />
 
             <ImageView
                 android:id="@+id/BlackSpider"
@@ -150,7 +150,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:focusable="true"
-                app:srcCompat="@drawable/spider" />
+                app:srcCompat="@drawable/whtspider" />
         </LinearLayout>
     </LinearLayout>
 

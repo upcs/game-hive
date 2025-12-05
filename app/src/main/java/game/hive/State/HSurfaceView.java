@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -15,7 +14,6 @@ import android.graphics.BitmapFactory;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import game.hive.GameFramework.utilities.Logger;
 import game.hive.R;
 
 
@@ -58,12 +56,12 @@ public class HSurfaceView extends SurfaceView {
         highlightColor.setColor(Color.RED);
         hexSelected = false;
         pieces = new HashMap<>();
-        pieces.put("Beetle", BitmapFactory.decodeResource(getResources(), R.drawable.beetle));
-        pieces.put("Grasshopper", BitmapFactory.decodeResource(getResources(), R.drawable.grasshopper));
+        pieces.put("Beetle", BitmapFactory.decodeResource(getResources(), R.drawable.whtbeetle));
+        pieces.put("Grasshopper", BitmapFactory.decodeResource(getResources(), R.drawable.whtgrasshopper));
         pieces.put("Delete", BitmapFactory.decodeResource(getResources(), R.drawable.purple_delete_button));
-        pieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.queenbee));
-        pieces.put("Ant", BitmapFactory.decodeResource(getResources(), R.drawable.soldierant));
-        pieces.put("Spider", BitmapFactory.decodeResource(getResources(), R.drawable.spider));
+        pieces.put("QueenBee", BitmapFactory.decodeResource(getResources(), R.drawable.whtqueenbee));
+        pieces.put("Ant", BitmapFactory.decodeResource(getResources(), R.drawable.whtant));
+        pieces.put("Spider", BitmapFactory.decodeResource(getResources(), R.drawable.whtspider));
 
         blackPieces = new HashMap<>();
         blackPieces.put("Beetle", BitmapFactory.decodeResource(getResources(), R.drawable.blkbeetle));

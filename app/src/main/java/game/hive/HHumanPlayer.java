@@ -1,9 +1,7 @@
 package game.hive;
 
-import android.graphics.Color;
 import android.graphics.Point;
 import android.view.MotionEvent;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -15,7 +13,6 @@ import game.hive.GameFramework.players.GameHumanPlayer;
 import game.hive.GameFramework.utilities.Logger;
 import game.hive.State.HGameState;
 import game.hive.State.HSurfaceView;
-import game.hive.State.HexSpace;
 
 public class HHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
 
@@ -94,15 +91,15 @@ private GameInfo hexInfo;
         ImageView BlackSpider = myActivity.findViewById(R.id.BlackSpider);
         BlackSpider.setOnTouchListener(this);
 
-        WhiteBeetle.setImageResource(R.drawable.beetle);
+        WhiteBeetle.setImageResource(R.drawable.whtbeetle);
         BlackBeetle.setImageResource(R.drawable.blkbeetle);
-        WhiteGrasshopper.setImageResource(R.drawable.grasshopper);
+        WhiteGrasshopper.setImageResource(R.drawable.whtgrasshopper);
         BlackGrasshopper.setImageResource(R.drawable.blkgrasshopper);
-        WhiteBee.setImageResource(R.drawable.queenbee);
+        WhiteBee.setImageResource(R.drawable.whtqueenbee);
         BlackBee.setImageResource(R.drawable.blkqueenbee);
-        WhiteAnt.setImageResource(R.drawable.soldierant);
+        WhiteAnt.setImageResource(R.drawable.whtant);
         BlackAnt.setImageResource(R.drawable.blkant);
-        WhiteSpider.setImageResource(R.drawable.spider);
+        WhiteSpider.setImageResource(R.drawable.whtspider);
         BlackSpider.setImageResource(R.drawable.blkspider);
         //WhiteBeetle.invalidate();
 
