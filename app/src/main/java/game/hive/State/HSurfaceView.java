@@ -114,29 +114,29 @@ public class HSurfaceView extends SurfaceView {
 
 
         // debug overlay for coords
-        Paint box = new Paint(Paint.ANTI_ALIAS_FLAG);
-        box.setColor(Color.argb(180, 0, 0, 0));
-        canvas.drawRect(80, 60, 680, 170, box);
+        //Paint box = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //box.setColor(Color.argb(180, 0, 0, 0));
+        //canvas.drawRect(80, 60, 680, 170, box);
 
-        Paint tp = new Paint(Paint.ANTI_ALIAS_FLAG);
-        tp.setColor(Color.GREEN);
-        tp.setTextSize(40f);
-
-        // string lines
-        String line1 = String.format("Pixel: (%.1f, %.1f)", dbgX, dbgY);
-
-        Point hexTile;
-        if (dbgHexTile != null) {
-            // If dbgHexTile exists set to hex tile
-            hexTile = dbgHexTile;
-        } else {
-            //if null set to point 0,0
-            hexTile = new Point(0, 0);
-        }
-        String line2 = String.format("Board: (col=%d, row=%d)", hexTile.x, hexTile.y);
-        // overlay box coords
-        canvas.drawText(line1, 100f, 115f, tp);
-        canvas.drawText(line2, 100f, 160f, tp);
+//        Paint tp = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        tp.setColor(Color.GREEN);
+//        tp.setTextSize(40f);
+//
+//        // string lines
+//        String line1 = String.format("Pixel: (%.1f, %.1f)", dbgX, dbgY);
+//
+//        Point hexTile;
+//        if (dbgHexTile != null) {
+//            // If dbgHexTile exists set to hex tile
+//            hexTile = dbgHexTile;
+//        } else {
+//            //if null set to point 0,0
+//            hexTile = new Point(0, 0);
+//        }
+//        String line2 = String.format("Board: (col=%d, row=%d)", hexTile.x, hexTile.y);
+//        // overlay box coords
+//        canvas.drawText(line1, 100f, 115f, tp);
+//        canvas.drawText(line2, 100f, 160f, tp);
         //end of debugger
 
         //drawing highlight
@@ -215,19 +215,19 @@ public class HSurfaceView extends SurfaceView {
         canvas.drawLine(x - a, y + b, x, y, color);
 
 
-        //draws coordinates at hex when it is drawn
-        Paint textPaint = new Paint();
-        textPaint.setColor(Color.GREEN);
-        textPaint.setTextSize(28f);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-
-        // calculate center of hex
-        float centerX = x + s / 2f;
-        float centerY = y + b;
-
-        String text = col + "," + row;
-
-        canvas.drawText(text, centerX, centerY, textPaint);
+//        //draws coordinates at hex when it is drawn
+//        Paint textPaint = new Paint();
+//        textPaint.setColor(Color.GREEN);
+//        textPaint.setTextSize(28f);
+//        textPaint.setTextAlign(Paint.Align.CENTER);
+//
+//        // calculate center of hex
+//        float centerX = x + s / 2f;
+//        float centerY = y + b;
+//
+//        String text = col + "," + row;
+//
+//        canvas.drawText(text, centerX, centerY, textPaint);
 
     }
     public void drawHighlight(Canvas canvas){
