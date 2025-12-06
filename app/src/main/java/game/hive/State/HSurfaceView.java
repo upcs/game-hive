@@ -44,9 +44,10 @@ public class HSurfaceView extends SurfaceView {
     Paint highlightColor = new Paint();
     private boolean hexSelected;
     private Point tappedHex;
+    private int activePlayer = -1;
 
 
-    
+
 
     public HSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -107,6 +108,18 @@ public class HSurfaceView extends SurfaceView {
                     }
                 }
             }
+        }
+
+
+        // display whos turn it is
+        if (activePlayer != -1) {
+            Paint turnPaint = new Paint();
+            turnPaint.setColor(Color.BLUE);
+            turnPaint.setTextSize(40f);
+            turnPaint.setTextAlign(Paint.Align.LEFT);
+
+            String turnText = "Turn: " + (activePlayer == 0 ? "WHITE" : "BLACK");
+            canvas.drawText(turnText, 50f, 35f, turnPaint);
         }
 
 
@@ -331,6 +344,10 @@ public class HSurfaceView extends SurfaceView {
             float right =  s + a - (a / b) * t;// s+a to s
             return dx >= left && dx <= right;
         }
+    }
+
+    public void setActivePlayer(int player) {
+        this.activePlayer = player;
     }
 
 

@@ -54,6 +54,7 @@ private GameInfo hexInfo;
             Logger.log("recievedInfo", "humanplayer has new state");
             setInfo(info);
             surfaceView.setBoard(state.getBoard());
+            surfaceView.setActivePlayer(state.getActivePlayer());
             surfaceView.invalidate();
         }
     }
