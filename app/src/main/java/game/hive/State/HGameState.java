@@ -256,7 +256,7 @@ public class HGameState extends GameState implements View.OnClickListener {
         String pieceName = movingPiece.getName();
 
         // destination must be empty ( EXCEPT FOR BEETLE )
-        if (!"Beetle".equals(pieceName) && to.getHex() != null) {
+        if (to.getHex() != null) { //!"Beetle".equals(pieceName)
             return false;
         }
 
@@ -270,7 +270,7 @@ public class HGameState extends GameState implements View.OnClickListener {
         if (!anyNeighborHasPiece(destNeighbors)) {
             return false;
         }
-        
+
 
         boolean movementOK = false;
 
