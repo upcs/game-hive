@@ -251,8 +251,12 @@ public class HGameState extends GameState implements View.OnClickListener {
             return false;
         }
 
-        // destination must be empty
-        if (to.getHex() != null) {
+        //finds piece being moved
+        Hex movingPiece = from.getHex();
+        String pieceName = movingPiece.getName();
+
+        // destination must be empty ( EXCEPT FOR BEETLE )
+        if (!"Beetle".equals(pieceName) && to.getHex() != null) {
             return false;
         }
 
@@ -266,10 +270,7 @@ public class HGameState extends GameState implements View.OnClickListener {
         if (!anyNeighborHasPiece(destNeighbors)) {
             return false;
         }
-
-        // piece-specific movement
-        Hex movingPiece = from.getHex();
-        String pieceName = movingPiece.getName();
+        
 
         boolean movementOK = false;
 
@@ -595,7 +596,34 @@ public class HGameState extends GameState implements View.OnClickListener {
     }
 
     private boolean canSpiderMove(int Xloc, int Yloc, int Xdest, int Ydest) {
-        return isNeighbor(Xloc, Yloc, Xdest, Ydest);
+        if (Xloc == Xdest && Yloc == Ydest) {
+            return false;
+        }
+
+        // dont allow spider move to adjacent hex
+        if (isNeighbor(Xloc, Yloc, Xdest, Ydest)) {
+            return false;
+        }
+
+        int rows = Board.size();
+        int cols = Board.get(0).size();
+
+        // visited[r][c]... already "passed" this hex space
+        boolean[][] visited = new boolean[rows][cols];
+
+        // mark starting hex as visited
+        // dont allow to place at visted locations
+        visited[Xloc][Yloc] = true;
+
+        // try to find a path of 3 hexes through neighbors
+        return spiderDFS(
+                Xloc, Yloc,   // startX, startY
+                Xloc, Yloc,   // curX, curY
+                Xdest, Ydest,
+                0,
+                visited
+        );
+
     }
 
     private boolean canBeetleMove(int Xloc, int Yloc, int Xdest, int Ydest) {
@@ -888,6 +916,74 @@ public class HGameState extends GameState implements View.OnClickListener {
         // if not, move is not allowed.
         return (reached == occupied.size());
     }
+
+
+    // DFS to see if the spider can reach (destX,destY)
+    // 3 neighbor steps and only moving through empty hexes
+    private boolean spiderDFS(int startX, int startY, int curX, int curY, int destX, int destY, int depth, boolean[][] visited) {
+
+        // after 3 steps thats the destination
+        if (depth == 3) {
+
+            if (curX != destX || curY != destY) {
+                return false;
+            }
+
+            // distance filtering conditions
+
+            // 1 hex from start (adjacent) ... place NOT allowed
+            if (isNeighbor(startX, startY, destX, destY)) {
+                return false;
+            }
+
+            // 2 hex from start ... place NOT allowed
+            for (int mx = 0; mx < Board.size(); mx++) {
+                for (int my = 0; my < Board.get(mx).size(); my++) {
+
+                    if (!isInBounds(mx, my)) continue;
+
+                    // must be neighbor of start
+                    if (!isNeighbor(startX, startY, mx, my)) continue;
+
+                    // and neighbor of dest
+                    if (!isNeighbor(mx, my, destX, destY)) continue;
+
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // continue to other hexes
+        for (int r = 0; r < Board.size(); r++) {
+            for (int c = 0; c < Board.get(r).size(); c++) {
+
+                if (visited[r][c]) continue;
+                if (!isNeighbor(curX, curY, r, c)) continue;
+                if (!isInBounds(r, c)) continue;
+
+                HexSpace space = getHexSpace(r, c);
+                if (space == null) continue;
+
+                // spider moves THROUGH empty spaces only
+                if (space.getHex() != null) continue;
+
+                // must "touch" hive
+                HexSpace[] neigh = getNeighbors(r, c);
+                if (!anyNeighborHasPiece(neigh)) continue;
+
+                // "explore" placement
+                visited[r][c] = true;
+                if (spiderDFS(startX, startY, r, c, destX, destY, depth + 1, visited)) {
+                    return true;
+                }
+                visited[r][c] = false;
+            }
+        }
+
+        return false;
+    }
+
 
 
 
